@@ -1,0 +1,12 @@
+node_modules
+dist
+dist-ssr
+.tanstack
+.vercel
+.run
+.cache
+.nitro
+.output
+.env
+.env.local
+.DS_Store
