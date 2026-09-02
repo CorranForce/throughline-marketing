@@ -115,7 +115,163 @@ function Home() {
           </div>
         </section>
 
-        {/* ============ 5. Who it's for ============ */}
+        {/* ============ 5. Pricing ============ */}
+        <section id="pricing" className="border-t border-neutral-200 bg-neutral-50 scroll-mt-24 dark:border-neutral-800 dark:bg-neutral-900/40">
+          <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24 lg:px-8">
+            <SectionTag>Pricing</SectionTag>
+            <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Flat monthly pricing, no lock-in</h2>
+            <p className="mt-4 max-w-2xl text-neutral-600 dark:text-neutral-400">
+              Retainers are month to month — stop at the end of any billing cycle. Campaign packages are fixed-scope
+              and fixed-price. No separate setup fee, ever.
+            </p>
+
+            <div className="mt-12 grid gap-6 md:grid-cols-3">
+              {[
+                {
+                  name: "Essentials",
+                  price: "$2,500",
+                  cadence: "per month",
+                  blurb: "For teams that need consistent marketing throughput, one channel at a time.",
+                  features: [
+                    "1–2 channels",
+                    "~4–6 pieces of content shipped a month",
+                    "Monthly readout: what moved, what didn't, what we change next",
+                  ],
+                  popular: false,
+                },
+                {
+                  name: "Growth",
+                  price: "$4,000",
+                  cadence: "per month",
+                  blurb: "Our flagship. A wider channel mix plus strategy support, month after month.",
+                  features: [
+                    "2–3 channels",
+                    "~8–12 pieces of content shipped a month",
+                    "Strategy support",
+                    "Monthly readout: what moved, what didn't, what we change next",
+                  ],
+                  popular: true,
+                },
+                {
+                  name: "Scale",
+                  price: "$6,000",
+                  cadence: "per month",
+                  blurb: "For teams ready to run more channels with a quarterly deep-dive on what's compounding.",
+                  features: [
+                    "3+ channels",
+                    "~12–16 pieces of content shipped a month",
+                    "Quarterly deep-dive",
+                  ],
+                  popular: false,
+                },
+              ].map((tier) => (
+                <div
+                  key={tier.name}
+                  className={`relative flex flex-col rounded-xl border p-8 ${
+                    tier.popular
+                      ? "border-emerald-600 shadow-lg dark:border-emerald-500"
+                      : "border-neutral-200 bg-white dark:border-neutral-800 dark:bg-neutral-950"
+                  }`}
+                >
+                  {tier.popular && (
+                    <span className="absolute -top-3 left-8 rounded-full bg-emerald-700 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white dark:bg-emerald-500 dark:text-neutral-950">
+                      Most popular
+                    </span>
+                  )}
+                  <h3 className="text-xl font-semibold">{tier.name}</h3>
+                  <p className="mt-4 text-3xl font-bold tracking-tight">
+                    {tier.price}
+                    <span className="text-sm font-medium text-neutral-500 dark:text-neutral-400"> {tier.cadence}</span>
+                  </p>
+                  <p className="mt-4 text-neutral-600 dark:text-neutral-400">{tier.blurb}</p>
+                  <ul className="mt-6 flex-1 space-y-3">
+                    {tier.features.map((item) => (
+                      <li key={item} className="flex gap-3">
+                        <CheckIcon />
+                        <span className="text-neutral-700 dark:text-neutral-300">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <a
+                    href={BOOK_CTA}
+                    className={`mt-8 inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-medium transition-colors ${
+                      tier.popular
+                        ? "bg-neutral-900 text-white hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
+                        : "text-neutral-700 ring-1 ring-neutral-300 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-300 dark:ring-neutral-700 dark:hover:bg-neutral-900 dark:hover:text-white"
+                    }`}
+                  >
+                    Book a strategy call
+                  </a>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-10 grid gap-6 md:grid-cols-2">
+              <div className="rounded-xl border border-neutral-200 bg-white p-8 dark:border-neutral-800 dark:bg-neutral-950">
+                <h3 className="text-xl font-semibold">The Campaign — one-off packages</h3>
+                <p className="mt-1 text-sm font-medium text-neutral-500 dark:text-neutral-400">
+                  Fixed scope, fixed price. No separate setup fee.
+                </p>
+                <ul className="mt-6 space-y-4">
+                  <li className="flex flex-col gap-1">
+                    <span className="font-semibold text-neutral-900 dark:text-white">
+                      Launch <span className="text-neutral-400 dark:text-neutral-500">·</span> $2,000–3,500
+                    </span>
+                    <span className="text-neutral-600 dark:text-neutral-400">
+                      Messaging and channel plan locked in week 1; content, ads, and landing assets built to one brief;
+                      a closing readout of what worked and what we'd do next time.
+                    </span>
+                  </li>
+                  <li className="flex flex-col gap-1">
+                    <span className="font-semibold text-neutral-900 dark:text-white">
+                      Seasonal push <span className="text-neutral-400 dark:text-neutral-500">·</span> $1,500–2,500
+                    </span>
+                    <span className="text-neutral-600 dark:text-neutral-400">
+                      Same shape, shorter scope, built for a defined moment — a release, a season, an event.
+                    </span>
+                  </li>
+                </ul>
+                <p className="mt-6 text-sm text-neutral-500 dark:text-neutral-400">
+                  The exact price within a range is fixed in your written scope before we start.
+                </p>
+              </div>
+
+              <div className="rounded-xl border border-neutral-200 bg-white p-8 dark:border-neutral-800 dark:bg-neutral-950">
+                <h3 className="text-xl font-semibold">7-day free trial — the strategy kickoff week</h3>
+                <p className="mt-4 text-neutral-600 dark:text-neutral-400">
+                  New Throughline engagements start with a free trial week: a quick audit of where you are now, a
+                  channel plan, a content plan, and a measurement baseline.
+                </p>
+                <ul className="mt-6 space-y-3">
+                  {[
+                    "No card during the trial — nothing is charged at signup.",
+                    "At day 7 you continue (billing starts, month to month from there) or stop — free.",
+                    "The trial work — audit, channel plan, content plan, measurement baseline — stays with you either way.",
+                  ].map((item) => (
+                    <li key={item} className="flex gap-3">
+                      <CheckIcon />
+                      <span className="text-neutral-700 dark:text-neutral-300">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+
+            <div className="mt-10 flex flex-col items-center gap-4 text-center">
+              <a
+                href={BOOK_CTA}
+                className="inline-flex items-center justify-center rounded-lg bg-neutral-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
+              >
+                Book a strategy call
+              </a>
+              <p className="text-sm text-neutral-500 dark:text-neutral-400">
+                Not sure which tier fits? The strategy call is free — we'll tell you straight.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ============ 6. Who it's for ============ */}
         <section className="border-t border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900/40">
           <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24 lg:px-8">
             <SectionTag>Who it's for</SectionTag>
@@ -146,7 +302,7 @@ function Home() {
           </div>
         </section>
 
-        {/* ============ 6. How it works ============ */}
+        {/* ============ 7. How it works ============ */}
         <section id="how-it-works" className="mx-auto max-w-6xl scroll-mt-24 px-6 py-20 sm:py-24 lg:px-8">
           <SectionTag>How it works</SectionTag>
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Four steps, no open-ended process</h2>
@@ -173,7 +329,7 @@ function Home() {
           </ol>
         </section>
 
-        {/* ============ 7. Social proof (placeholder, do not publish) ============ */}
+        {/* ============ 8. Social proof (placeholder, do not publish) ============ */}
         <section className="border-t border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900/40">
           <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24 lg:px-8">
             <SectionTag>Social proof</SectionTag>
@@ -190,7 +346,7 @@ function Home() {
           </div>
         </section>
 
-        {/* ============ 8. FAQ ============ */}
+        {/* ============ 9. FAQ ============ */}
         <section id="faq" className="mx-auto max-w-3xl scroll-mt-24 px-6 py-20 sm:py-24">
           <SectionTag>FAQ</SectionTag>
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Questions, answered straight</h2>
@@ -239,7 +395,7 @@ function Home() {
           </div>
         </section>
 
-        {/* ============ 9. Final CTA ============ */}
+        {/* ============ 10. Final CTA ============ */}
         <section className="relative overflow-hidden border-t border-neutral-200 bg-neutral-900 text-center dark:border-neutral-800 dark:bg-neutral-900">
           <div className="pointer-events-none absolute inset-0 opacity-55" aria-hidden>
             <img
