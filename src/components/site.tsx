@@ -69,6 +69,9 @@ export function SiteHeader() {
           <a href="/#services" className="transition-colors hover:text-neutral-900 dark:hover:text-white">
             Services
           </a>
+          <a href="/#pricing" className="transition-colors hover:text-neutral-900 dark:hover:text-white">
+            Pricing
+          </a>
           <a href="/#how-it-works" className="transition-colors hover:text-neutral-900 dark:hover:text-white">
             How it works
           </a>

@@ -13,14 +13,13 @@ import {
   P,
   Pending,
   PolicyShell,
-  TbdNote,
   Ul,
 } from "~/components/policy";
 
 const SUBPROCESSORS: { provider: string; purpose: string; status: string }[] = [
   {
     provider: "Neon",
-    purpose: "Hosts the enquiry database",
+    purpose: "Hosts the enquiry/trial database",
     status: "When the form + DB ships",
   },
   {
@@ -42,21 +41,21 @@ const SUBPROCESSORS: { provider: string; purpose: string; status: string }[] = [
 
 function Privacy() {
   return (
-    <PolicyShell title="Privacy Policy">
+    <PolicyShell title="Privacy Policy" lastUpdated="2026-09-02">
       <P>
-        <strong>Status: WORKING DRAFT for owner review — not in force.</strong>
+        <strong>Status: Ratified v1.0</strong> — 2026-09-02, prepared from the
+        owner's ratified decisions. Supersedes Working Draft 0.1. This policy
+        takes effect on the date the owner publishes it on our site. Drafted in
+        plain English against our actual practices and the compliance baseline's
+        §4 checklist (all 14 clauses, in order). Where a practice doesn't exist
+        yet, the policy says &quot;planned&quot; and claims nothing more. We hold
+        no certifications and make no certification claims.
       </P>
       <P>
-        Version 0.1 — 2026-09-02. Drafted in plain English against our actual
-        practices and the compliance baseline's §4 checklist (all 14 clauses, in
-        order). Where a practice doesn't exist yet, the policy says
-        &quot;planned&quot; and claims nothing more. We hold no certifications and
-        make no certification claims.
-      </P>
-      <P>
-        <strong>Who we are.</strong> Throughline Marketing — a marketing-execution
-        agency for early-stage startups and SMBs: strategy, content, and
-        measurement on a monthly retainer or one-off campaign packages.{" "}
+        <strong>Who we are.</strong> Throughline Marketing — a
+        marketing-execution agency for early-stage startups and SMBs: strategy,
+        content, and measurement on a monthly retainer or one-off campaign
+        packages.{" "}
         <Pending inline>
           Legal entity name, registered address, and country, once confirmed.
         </Pending>
@@ -90,19 +89,24 @@ function Privacy() {
             We keep the thread in our business inbox.
           </>,
           <>
-            <strong>(c) Analytics (planned):</strong> pseudonymous events — page
+            <strong>(c) Trial signups</strong> (when the trial opens): your name,
+            business email, company, and what you tell us about your goals. The
+            same minimum — nothing else.
+          </>,
+          <>
+            <strong>(d) Analytics (planned):</strong> pseudonymous events — page
             views, clicks, scroll depth, which sections you saw, device and
             browser type, referrer, and UTM parameters.{" "}
             <strong>
               No names, emails, or other personal identifiers ever appear in
               analytics events.
             </strong>{" "}
-            Form contents live in the database only, never in analytics.
+            Form and trial data live in the database only, never in analytics.
           </>,
           <>
-            <strong>(d) Payments (planned):</strong> your name, billing email,
+            <strong>(e) Payments (planned):</strong> your name, billing email,
             and invoice address. Card numbers are handled by our payment
-            provider, Stripe — we never see or store them (Section 10).
+            provider, Stripe — we never see or store them (Sections 9–10).
           </>,
         ]}
       />
@@ -113,6 +117,10 @@ function Privacy() {
           <>to respond to your enquiries;</>,
           <>
             to run and secure our website (including anti-spam and anti-abuse);
+          </>,
+          <>
+            to run the 7-day free trial and communicate about it (with your
+            opt-in — Section 14);
           </>,
           <>to deliver the services you've engaged us for;</>,
           <>to process payments (planned);</>,
@@ -132,8 +140,9 @@ function Privacy() {
           </>,
           <>
             <strong>Consent</strong> — non-essential analytics for visitors in
-            the EEA/UK. We ask first, and you can withdraw your consent at any
-            time.
+            the EEA/UK (we ask first, and you can withdraw at any time), and
+            trial-communication email (given by signing up for the trial,
+            withdrawable at any time — Section 14).
           </>,
           <>
             <strong>Contract</strong> — payments and services when you become a
@@ -149,12 +158,12 @@ function Privacy() {
       <Ul
         items={[
           <>
-            <strong>Enquiry form data:</strong> a hosted database provided by{" "}
-            <strong>Neon</strong>, in{" "}
+            <strong>Enquiry and trial data:</strong> a hosted database provided
+            by <strong>Neon</strong>, in{" "}
             <Pending inline>
-              region — to be confirmed at database setup and stated here
+              the Neon database region; stated here when the owner confirms it
+              at provisioning.
             </Pending>
-            .
           </>,
           <>
             <strong>Emails:</strong> our business inbox, hosted by our email
@@ -204,15 +213,16 @@ function Privacy() {
             automated.
           </>,
           <>
-            <strong>Enquiries:</strong> while the sales conversation with you is
-            active. If we don't start a project, we don't keep your details on
-            file indefinitely — ask us to delete and we will (Section 8).
+            <strong>Enquiries and trial signups:</strong> while the conversation
+            with you is active. If we don't start a project, or you don't
+            continue after the trial, we don't keep your details on file
+            indefinitely — ask us to delete and we will (Section 8).
           </>,
           <>
             <strong>Invoicing and accounting records:</strong> as long as
             applicable tax law requires.{" "}
             <Pending inline>
-              The exact period depends on the owner's confirmed jurisdiction;
+              the exact period depends on the owner's confirmed jurisdiction;
               we'll state the real number here once known.
             </Pending>
           </>,
@@ -232,8 +242,8 @@ function Privacy() {
             <strong>correct</strong> inaccurate data;
           </>,
           <>
-            <strong>erase</strong> your data — for form data we erase by your
-            lead ID, for emails we delete the thread;
+            <strong>erase</strong> your data — for form and trial data we erase
+            by your lead ID, for emails we delete the thread;
           </>,
           <>
             <strong>restrict or object</strong> to processing (e.g. stop
@@ -304,6 +314,11 @@ function Privacy() {
         <strong>never seen or stored by us</strong>. Stripe's privacy policy
         governs card processing — we'll link it here when checkout is live.
       </P>
+      <P>
+        During the 7-day free trial we don't capture a card. If you continue at
+        day 7, we set up payment for your first month through Stripe-hosted
+        checkout — that's the first time card details are involved.
+      </P>
 
       <DocHeading>11. Children</DocHeading>
       <P>
@@ -351,26 +366,21 @@ function Privacy() {
 
       <DocHeading>13. Changes to this policy</DocHeading>
       <P>
-        This policy is versioned (Version 0.1 above). If we make material
+        This policy is versioned (Version 1.0 above). If we make material
         changes, we'll post a notice on the site before they take effect, and
         older versions stay on file so the history is visible.
       </P>
 
-      <DocHeading>14. Marketing email (planned)</DocHeading>
+      <DocHeading>14. Marketing email — the free trial</DocHeading>
       <P>
-        If you sign up for a free trial or a similar program, that signup is your
-        permission for us to email you about your account and our services. Every
-        marketing email we send will carry a working <strong>unsubscribe</strong>{" "}
-        link, and we send no unsolicited commercial email.
+        Signing up for the 7-day free trial is your <strong>opt-in</strong> for
+        us to email you about your trial, your account, and our services. Every
+        email we send in that programme carries a working{" "}
+        <strong>unsubscribe link</strong> — one click and we stop, with no
+        questions. We send no unsolicited commercial email. You can also
+        unsubscribe or update your preferences any time by emailing the inbox in
+        Section 1.
       </P>
-      <TbdNote>
-        <P>
-          The <strong>7-day free trial's terms</strong> (what's included, when
-          billing starts after day 7, whether a card is captured) are not yet
-          defined. This section can't be finalised until the owner defines the
-          trial.
-        </P>
-      </TbdNote>
     </PolicyShell>
   );
 }
