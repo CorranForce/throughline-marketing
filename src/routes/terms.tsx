@@ -12,40 +12,57 @@ import {
   P,
   Pending,
   PolicyShell,
-  TbdNote,
   Ul,
 } from "~/components/policy";
 
+const RETAINER_TIERS: { tier: string; price: string; scope: string }[] = [
+  {
+    tier: "Essentials",
+    price: "$2,500",
+    scope: "1–2 channels; roughly 4–6 pieces of content shipped a month; monthly readout",
+  },
+  {
+    tier: "Growth (flagship)",
+    price: "$4,000",
+    scope: "2–3 channels; roughly 8–12 pieces a month; strategy support; monthly readout",
+  },
+  {
+    tier: "Scale",
+    price: "$6,000",
+    scope: "3+ channels; roughly 12–16 pieces a month; quarterly deep-dive",
+  },
+];
+
 function Terms() {
   return (
-    <PolicyShell title="Terms & Conditions">
+    <PolicyShell title="Terms & Conditions" lastUpdated="2026-09-02">
       <P>
-        <strong>Status: WORKING DRAFT for owner review — not in force.</strong>
-      </P>
-      <P>
-        Version 0.1 — 2026-09-02. Drafted by legal against how we actually operate.
-        Nothing here is binding until the owner ratifies it and the business
-        publishes it.
+        <strong>Status: Ratified v1.0</strong> — 2026-09-02, prepared from the
+        owner's ratified decisions (retainer pricing, package pricing, and
+        free-trial terms). Supersedes Working Draft 0.1. These terms take effect
+        on the date the owner publishes them; that date is the Effective Date.
       </P>
       <P>
         <strong>Plain-English note:</strong> these terms are written to be read,
-        not decoded. Where a term cannot be set yet because the owner hasn't
-        decided it, the section says{" "}
-        <strong>[PENDING OWNER DECISION]</strong> — nothing is invented.
+        not decoded. Two items genuinely can't be set until the owner decides
+        them — the legal entity name (Section 1) and governing law/jurisdiction
+        (Section 13). Both are marked [PENDING OWNER DECISION], and nothing is
+        invented around them.
       </P>
 
       <DocHeading>1. What these terms cover</DocHeading>
       <P>
         These are the standard Terms &amp; Conditions of Throughline Marketing
-        (&quot;we&quot;, &quot;us&quot;, &quot;Throughline&quot;). They apply when
-        you (&quot;you&quot;, &quot;the client&quot;) engage us for either of our
-        two services:
+        (&quot;Throughline&quot;, &quot;we&quot;, &quot;us&quot;). They apply
+        when you (&quot;you&quot;, &quot;the client&quot;) engage us for either
+        of our two services:
       </P>
       <Ul
         items={[
           <>
-            <strong>The Throughline</strong> — our monthly retainer (channel mix +
-            content cadence, planned, produced, and measured month after month).
+            <strong>The Throughline</strong> — our monthly retainer (channel mix
+            + content cadence, planned, produced, and measured month after
+            month).
           </>,
           <>
             <strong>The Campaign</strong> — our fixed-scope, one-off campaign
@@ -55,6 +72,10 @@ function Terms() {
         ]}
       />
       <P>
+        All prices in this document are in <strong>US dollars (USD)</strong>{" "}
+        unless a written scope says otherwise.
+      </P>
+      <P>
         Each engagement also has a written scope agreed before we start (Section
         2). If anything in your written scope conflicts with these terms, the
         written scope wins for that engagement.
@@ -63,7 +84,7 @@ function Terms() {
         <P>
           The <strong>legal entity name</strong> and its{" "}
           <strong>country/state of registration</strong> are not finalised. Once
-          the owner confirms them, they go here and in the Privacy Policy footer.
+          the owner confirms them, they go here and in the Privacy Policy header.
         </P>
       </Pending>
 
@@ -90,11 +111,48 @@ function Terms() {
       </P>
 
       <DocHeading>3. The Throughline — monthly retainer</DocHeading>
+      <P>
+        Three tiers, all <strong>month to month</strong> — no long-term lock-in.
+        Stop at the end of any billing cycle (Section 8).
+      </P>
+      <div className="my-5 overflow-x-auto">
+        <table className="w-full border-collapse text-sm">
+          <thead>
+            <tr>
+              {["Tier", "Monthly price (USD)", "Standard scope"].map((cell) => (
+                <th
+                  key={cell}
+                  className="border-b border-neutral-300 bg-neutral-50 px-4 py-3 text-left font-semibold text-neutral-900 dark:border-neutral-700 dark:bg-neutral-900 dark:text-white"
+                >
+                  {cell}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {RETAINER_TIERS.map((row) => (
+              <tr key={row.tier}>
+                <td className="border-b border-neutral-200 px-4 py-3 font-medium text-neutral-900 dark:border-neutral-800 dark:text-white">
+                  {row.tier}
+                </td>
+                <td className="border-b border-neutral-200 px-4 py-3 text-neutral-700 dark:border-neutral-800 dark:text-neutral-300">
+                  {row.price}
+                </td>
+                <td className="border-b border-neutral-200 px-4 py-3 text-neutral-700 dark:border-neutral-800 dark:text-neutral-300">
+                  {row.scope}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <P>
+        Your written scope states the exact channel mix, content cadence, and
+        metrics for your tier. The table is the standard shape of each tier —
+        the written scope is what we're actually accountable to.
+      </P>
       <Ul
         items={[
-          <>
-            Runs <strong>month to month</strong>. No long-term lock-in.
-          </>,
           <>
             Each month we deliver the agreed channel mix and content cadence,
             plus a monthly readout: what moved, what didn't, and what we change
@@ -114,27 +172,38 @@ function Terms() {
       />
 
       <DocHeading>4. The Campaign — one-off packages</DocHeading>
+      <P>
+        Two fixed-scope packages, fixed price, agreed in writing before we start:
+      </P>
       <Ul
         items={[
           <>
-            Fixed scope, fixed price, agreed in writing before we start:
-            messaging and channel plan locked in the first week, content/ads/landing
-            assets built to one brief, then a closing readout of what worked and
-            what we'd do next time.
+            <strong>Launch package: $2,000–3,500.</strong> Messaging and channel
+            plan locked in week 1; content, ads, and landing assets built to one
+            brief; then a closing readout of what worked and what we'd do next
+            time.
           </>,
           <>
-            The price covers the agreed scope. Work outside scope is quoted
-            separately and agreed in writing before we do it (Section 2).
+            <strong>Seasonal push: $1,500–2,500.</strong> Same shape, shorter
+            scope, built for a defined moment — a release, a season, an event.
           </>,
         ]}
       />
-      <Pending>
-        <P>
-          <strong>Package price points</strong>,{" "}
-          <strong>payment schedule</strong> (e.g. deposit vs 100% upfront), and
-          what happens if deliverables are delayed by either side.
-        </P>
-      </Pending>
+      <P>
+        The exact price within a package's range is set by the scope and fixed in
+        your written scope before we start. There's{" "}
+        <strong>no separate setup fee</strong> — the kickoff is included in the
+        package price.
+      </P>
+      <P>
+        The price covers the agreed scope. Work outside scope is quoted
+        separately and agreed in writing before we do it (Section 2).
+      </P>
+      <P>
+        If we're running late, we tell you in writing and make it right (Sections
+        11–12). If you're late with what we need from you (Section 6), the
+        schedule shifts — we say so in writing.
+      </P>
 
       <DocHeading>5. Who does the work</DocHeading>
       <P>
@@ -156,47 +225,52 @@ function Terms() {
       <Ul
         items={[
           <>
-            Payment terms for each engagement are set in the written scope: the
-            rate or price, when it's due, and how you pay. We don't charge prices
-            that haven't been agreed in writing.
+            Prices are set in this document (Sections 3–4) or in your written
+            scope. We never charge a price that hasn't been agreed in writing.
           </>,
           <>
-            When payments go live, we accept payment through{" "}
-            <strong>Stripe-hosted checkout</strong>. Card numbers go to Stripe
-            and never touch our systems — see our Privacy Policy for the honest
-            detail.
+            Payment terms for each engagement are set in the written scope: when
+            the fee is due and how you pay.
           </>,
-          <>We may also invoice for certain engagements.</>,
+          <>
+            We accept payment through <strong>Stripe-hosted checkout</strong>.
+            Card numbers go to Stripe and never touch our systems — see our
+            Privacy Policy for the honest detail. We may also invoice for certain
+            engagements.
+          </>,
+          <>
+            <strong>Free trial:</strong> we don't take a card during the 7-day
+            trial and nothing is charged at signup. If you continue at day 7,
+            your first monthly fee is due and we set up payment then (Section
+            14).
+          </>,
         ]}
       />
-      <Pending>
-        <P>
-          The actual <strong>price points</strong> (retainer rates, package
-          prices), <strong>currency</strong>, invoicing terms (net payment
-          period, late payment), and <strong>deposit structure</strong>. Once the
-          owner sets these, they appear in this section and in each written scope.
-        </P>
-      </Pending>
 
       <DocHeading>8. Cancellation and notice</DocHeading>
       <Ul
         items={[
           <>
-            <strong>Retainers:</strong> cancel at the end of any billing cycle.
-            We ask for notice before the current cycle ends.{" "}
-            <Pending inline>
-              The exact notice window (e.g. X days before renewal) will be stated
-              in each engagement once the owner sets it.
-            </Pending>
+            <strong>Retainers:</strong> month to month. Cancel at the end of any
+            billing cycle — send notice before the cycle ends and you won't be
+            charged for the next one; if notice arrives after the cycle has
+            rolled, your cancellation takes effect at the end of that (already
+            paid) cycle. No lock-in, no exit fee.
           </>,
           <>
-            <strong>Packages:</strong> cancel before we start — see the Refund
-            Policy for what's refundable and when.
+            <strong>Packages:</strong> cancel within 7 calendar days of signing
+            for a refund of everything you paid, minus agreed out-of-pocket costs
+            already spent on your behalf (we show receipts) — see the Refund
+            Policy for the detail.
           </>,
           <>
             If you breach these terms or don't pay, we can pause work or end the
-            engagement after written notice and a short cure period (we'll state
-            the cure period per engagement; <Pending inline>standard cure window</Pending>).
+            engagement after written notice and a 7-day window to fix the
+            problem.
+          </>,
+          <>
+            We end an engagement only the way this section or the Refund Policy
+            describes — never without telling you in writing.
           </>,
         ]}
       />
@@ -257,9 +331,9 @@ function Terms() {
 
       <DocHeading>11. Honest promises about results</DocHeading>
       <P>
-        We don't guarantee specific outcomes. No &quot;X pipeline in Y months&quot;
-        promises, no fabricated numbers, no manufactured timelines. What we do
-        promise:
+        We don't guarantee specific outcomes. No &quot;X pipeline in Y
+        months&quot; promises, no fabricated numbers, no manufactured timelines.
+        What we do promise:
       </P>
       <Ul
         items={[
@@ -290,49 +364,75 @@ function Terms() {
           </>,
         ]}
       />
-      <Pending>
-        <P>
-          This liability cap is a reasonable market default; the owner should
-          confirm it before ratification.
-        </P>
-      </Pending>
 
       <DocHeading>13. Disputes</DocHeading>
       <P>
-        First, talk: contact us and give us a genuine chance to fix the issue.{" "}
-        <Pending inline>Formal response window for dispute notices.</Pending> If
-        we can't resolve it, any claim goes to{" "}
+        First, talk: contact us and give us <strong>30 days</strong> to fix the
+        issue (the same window our Privacy Policy uses for responses). If we
+        can't resolve it, any claim goes to{" "}
         <Pending inline>
-          Governing law and forum, once the owner confirms the business's
-          jurisdiction. Draft default: the exclusive jurisdiction of the courts
-          of the owner's confirmed jurisdiction.
+          governing law and forum. The owner hasn't confirmed the business's
+          jurisdiction yet; this is the one open item left in these terms. Once
+          set, this clause is complete.
         </Pending>
       </P>
 
-      <DocHeading>
-        14. The 7-day free trial —{" "}
-        <span className="text-amber-700 dark:text-amber-400">pending owner decision</span>
-      </DocHeading>
-      <TbdNote>
-        <P>
-          The business plan includes a 7-day free trial. Its terms — what's
-          included in the trial, when billing starts after day 7, whether a card
-          is required up front, what happens at the end of the trial — are{" "}
-          <strong>not decided yet</strong>. This section is intentionally open
-          until the owner defines the trial.
-        </P>
-        <P>
-          <strong>The trial will not launch before these terms exist.</strong>
-        </P>
-      </TbdNote>
+      <DocHeading>14. The 7-day free trial</DocHeading>
+      <P>
+        New The Throughline engagements can start with a 7-day free trial. The
+        trial is the strategy kickoff week, done properly:
+      </P>
+      <Ul
+        items={[
+          <>a quick audit of where you are now;</>,
+          <>
+            a channel plan — which channels, why, and in what order;
+          </>,
+          <>
+            a content plan — the shape of your first month's content cadence;
+          </>,
+          <>
+            a measurement baseline — the metrics we'll report against if you
+            continue.
+          </>,
+        ]}
+      />
+      <P>
+        <strong>The trial is free.</strong> We don't take a card during the 7
+        days and nothing is charged at signup. Signing up does one thing besides
+        the work: it's your opt-in for us to email you about the trial, your
+        account, and our services — every such email has a working unsubscribe
+        link, and we send no unsolicited email (Privacy Policy, Section 14).
+      </P>
+      <P>At day 7 you decide:</P>
+      <Ul
+        items={[
+          <>
+            <strong>Continue</strong> — billing starts: your first month of The
+            Throughline is due, we set up payment for it, and the engagement
+            becomes month-to-month from there (Section 3). The trial's channel
+            plan, content plan, and measurement baseline carry straight into your
+            first month.
+          </>,
+          <>
+            <strong>Stop</strong> — no charge, and nothing to refund. The trial
+            work — your audit, channel plan, content plan, and measurement
+            baseline — stays with you either way.
+          </>,
+        ]}
+      />
+      <P>
+        Trial signups that don't continue are never billed (Refund Policy,
+        Section 5).
+      </P>
 
       <DocHeading>15. Versioning and ratification</DocHeading>
       <P>
-        This is Working Draft 0.1, dated 2026-09-02. It is{" "}
-        <strong>not in force</strong>. When the owner ratifies a version — after
-        the pending decisions above are made — we'll publish it with an effective
-        date and renumber it. We keep old versions on file so changes stay
-        visible.
+        Ratified version 1.0, dated 2026-09-02. The owner's decisions on pricing,
+        packages, and the free trial are folded in. These terms take effect on
+        the date the owner publishes them (the Effective Date). Working Draft 0.1
+        stays on file, and old versions of any document stay on file too, so
+        changes stay visible.
       </P>
     </PolicyShell>
   );

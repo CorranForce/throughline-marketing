@@ -12,22 +12,20 @@ import {
   DocHeading,
   Ol,
   P,
-  Pending,
   PolicyShell,
-  TbdNote,
   Ul,
 } from "~/components/policy";
 
 function RefundPolicy() {
   return (
-    <PolicyShell title="Refund Policy">
+    <PolicyShell title="Refund Policy" lastUpdated="2026-09-02">
       <P>
-        <strong>Status: WORKING DRAFT for owner review — not in force.</strong>
-      </P>
-      <P>
-        Version 0.1 — 2026-09-02. Written honestly: what's refundable, what's
-        not, and how to ask. No invented guarantees, no &quot;100% money-back&quot;
-        promises we don't mean.
+        <strong>Status: Ratified v1.0</strong> — 2026-09-02, prepared from the
+        owner's ratified decisions and legal's recommended defaults (flagged in
+        the cover memo for owner confirmation). Supersedes Working Draft 0.1.
+        This policy takes effect on the date the owner publishes it. Written
+        honestly: what's refundable, what's not, and how to ask. No invented
+        guarantees, no &quot;100% money-back&quot; promises we don't mean.
       </P>
 
       <DocHeading>1. What this policy covers</DocHeading>
@@ -52,16 +50,11 @@ function RefundPolicy() {
       <Ul
         items={[
           <>
-            <strong>Before we start:</strong> if you cancel before we begin the
-            work, you get a refund of what you paid — minus any agreed
+            <strong>Free cancellation window:</strong> cancel within{" "}
+            <strong>7 calendar days of signing</strong> and before we begin work,
+            and you get a full refund of everything you paid — minus any agreed
             out-of-pocket costs already incurred on your behalf (for example,
             paid ad spend). We show you receipts for those costs.
-          </>,
-          <>
-            <Pending inline>
-              A free-cancellation window (e.g. X days after signing) or none at
-              all. Not yet set.
-            </Pending>
           </>,
           <>
             <strong>Defects, not cancellations:</strong> if we deliver something
@@ -99,13 +92,11 @@ function RefundPolicy() {
             non-payment, there's no refund for the current cycle.
           </>,
           <>
-            If we miss agreed deliverables in a cycle and don't make it right,{" "}
-            <Pending inline>
-              Remedy the owner must set: pro-rata refund for the undelivered
-              portion, or a credit toward the next month. Our draft default is:
-              we make it right first (fix or credit); if we can't, you're
-              entitled to a pro-rata refund for what wasn't delivered.
-            </Pending>
+            <strong>If we miss agreed deliverables in a cycle:</strong> we make
+            it right first — we fix what was missed or credit it toward the next
+            month's fees. If we can't make it right, you're entitled to a{" "}
+            <strong>pro-rata refund for the undelivered portion</strong> of that
+            cycle's fee.
           </>,
         ]}
       />
@@ -124,50 +115,33 @@ function RefundPolicy() {
           <>
             If approved, we refund via the <strong>original payment method</strong>{" "}
             — a Stripe refund if you paid by card, a bank transfer if you paid by
-            invoice.{" "}
-            <Pending inline>
-              Refund processing window (e.g. X business days) once the owner
-              sets it.
-            </Pending>
+            invoice — <strong>within 14 days of your refund being approved</strong>.
           </>,
         ]}
       />
 
-      <DocHeading>
-        5. Free trial (7-day) —{" "}
-        <span className="text-amber-700 dark:text-amber-400">terms TBD</span>
-      </DocHeading>
-      <TbdNote>
-        <P>
-          The business plan includes a 7-day free trial, and its refund terms{" "}
-          <strong>cannot be written yet</strong>. The owner has not decided:
-        </P>
-        <Ul
-          items={[
-            <>what the trial includes;</>,
-            <>when billing starts after day 7;</>,
-            <>whether a card is captured at signup;</>,
-            <>what happens at the end of the trial.</>,
-          ]}
-        />
-        <P>
-          This section stays open until those decisions are made.{" "}
-          <strong>
-            The trial will not launch and no trial-related charges will occur
-            before this section is written and ratified.
-          </strong>{" "}
-          When it is, this policy will say exactly what's refundable for trial
-          conversions — and it will be honest about it.
-        </P>
-      </TbdNote>
+      <DocHeading>5. Free trial (7-day)</DocHeading>
+      <P>
+        The 7-day free trial is exactly that — <strong>free</strong>. We take no
+        card at signup, nothing is charged during the trial, and a trial signup
+        that doesn't continue at day 7 is never billed. There is nothing to
+        refund because nothing is ever charged.
+      </P>
+      <P>
+        If you continue at day 7, billing starts: your first month of The
+        Throughline is due and payment is set up then (Terms &amp; Conditions,
+        Section 14). From that point the rest of this policy applies — and your
+        first month is covered by every right in it, including the retainer
+        remedy in Section 3.
+      </P>
 
       <DocHeading>6. No hidden fine print</DocHeading>
       <Ul
         items={[
           <>
-            Deposit percentages, cancellation windows, and pro-rata rules are set
-            per engagement in writing. This policy states the general rules; the
-            signed scope states the specifics.
+            Cancellation windows (Section 2), pro-rata rules (Section 3), and
+            payment terms are set per engagement in writing. This policy states
+            the general rules; the signed scope states the specifics.
           </>,
           <>
             If these terms ever change, the version in force is the one dated and
