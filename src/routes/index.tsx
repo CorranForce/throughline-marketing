@@ -1,11 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useEffect } from "react";
+
+import { ConsentBanner } from "~/components/consent-banner";
+import { EnquiryForm } from "~/components/enquiry-form";
 import {
-  BOOK_CTA,
   BookButton,
   CheckIcon,
   SectionTag,
   SiteFooter,
   SiteHeader,
+  initCtaTracking,
 } from "~/components/site";
 
 export const Route = createFileRoute("/")({
@@ -13,6 +17,10 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
+  // Tracked-CTA click delegate (fires cta_click via the track() wrapper;
+  // events are consent-gated and no-ops today — tracking-free baseline).
+  useEffect(() => initCtaTracking(), []);
+
   return (
     <div className="flex min-h-dvh flex-col bg-white dark:bg-neutral-950">
       {/* ============ 1. Header / nav ============ */}
@@ -34,9 +42,13 @@ function Home() {
                 launch and sustain marketing without hiring a full in-house team.
               </p>
               <div className="mt-10 flex flex-wrap items-center gap-4">
-                <BookButton />
+                <BookButton ctaId="hero-cta" />
                 <a
                   href="#how-it-works"
+                  data-cta-id="hero-secondary"
+                  data-cta-label="See how it works"
+                  data-cta-type="anchor"
+                  data-cta-destination="#how-it-works"
                   className="inline-flex items-center rounded-lg px-5 py-3 text-sm font-medium text-neutral-700 ring-1 ring-neutral-300 transition-colors hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-300 dark:ring-neutral-700 dark:hover:bg-neutral-900 dark:hover:text-white"
                 >
                   See how it works
@@ -193,7 +205,11 @@ function Home() {
                     ))}
                   </ul>
                   <a
-                    href={BOOK_CTA}
+                    href="#enquire"
+                    data-cta-id={`pricing-${tier.name.toLowerCase()}`}
+                    data-cta-label="Book a strategy call"
+                    data-cta-type="form"
+                    data-cta-destination="#enquire"
                     className={`mt-8 inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-medium transition-colors ${
                       tier.popular
                         ? "bg-neutral-900 text-white hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
@@ -259,7 +275,11 @@ function Home() {
 
             <div className="mt-10 flex flex-col items-center gap-4 text-center">
               <a
-                href={BOOK_CTA}
+                href="#enquire"
+                data-cta-id="pricing-cta"
+                data-cta-label="Book a strategy call"
+                data-cta-type="form"
+                data-cta-destination="#enquire"
                 className="inline-flex items-center justify-center rounded-lg bg-neutral-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
               >
                 Book a strategy call
@@ -271,7 +291,42 @@ function Home() {
           </div>
         </section>
 
-        {/* ============ 6. Who it's for ============ */}
+        {/* ============ 6. Enquiry form (primary conversion) ============ */}
+        <section id="enquire" className="border-t border-neutral-200 bg-neutral-50 scroll-mt-24 dark:border-neutral-800 dark:bg-neutral-900/40">
+          <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24 lg:px-8">
+            <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
+              <div>
+                <SectionTag>Book your strategy call</SectionTag>
+                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
+                  Get a free 30-minute marketing strategy call
+                </h2>
+                <p className="mt-4 max-w-xl text-lg leading-relaxed text-neutral-600 dark:text-neutral-400">
+                  Thirty minutes, no pitch deck. We'll look at where you are,
+                  where the bottleneck is, and what the next two months of
+                  marketing should be — straight talk, even if the answer is
+                  "not us".
+                </p>
+                <ul className="mt-8 max-w-xl space-y-3">
+                  {[
+                    "A quick pass on your current funnel and channel fit.",
+                    "What we'd ship in the first month if we worked together.",
+                    "A straight answer on whether you need a retainer at all.",
+                  ].map((item) => (
+                    <li key={item} className="flex gap-3">
+                      <CheckIcon />
+                      <span className="text-neutral-700 dark:text-neutral-300">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="rounded-xl border border-neutral-200 bg-white p-6 sm:p-8 dark:border-neutral-800 dark:bg-neutral-950">
+                <EnquiryForm ctaId="enquiry-form" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ============ 7. Who it's for ============ */}
         <section className="border-t border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900/40">
           <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24 lg:px-8">
             <SectionTag>Who it's for</SectionTag>
@@ -302,7 +357,7 @@ function Home() {
           </div>
         </section>
 
-        {/* ============ 7. How it works ============ */}
+        {/* ============ 8. How it works ============ */}
         <section id="how-it-works" className="mx-auto max-w-6xl scroll-mt-24 px-6 py-20 sm:py-24 lg:px-8">
           <SectionTag>How it works</SectionTag>
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Four steps, no open-ended process</h2>
@@ -329,7 +384,7 @@ function Home() {
           </ol>
         </section>
 
-        {/* ============ 8. Social proof (placeholder, do not publish) ============ */}
+        {/* ============ 9. Social proof (placeholder, do not publish) ============ */}
         <section className="border-t border-neutral-200 bg-neutral-50 dark:border-neutral-800 dark:bg-neutral-900/40">
           <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24 lg:px-8">
             <SectionTag>Social proof</SectionTag>
@@ -346,7 +401,7 @@ function Home() {
           </div>
         </section>
 
-        {/* ============ 9. FAQ ============ */}
+        {/* ============ 10. FAQ ============ */}
         <section id="faq" className="mx-auto max-w-3xl scroll-mt-24 px-6 py-20 sm:py-24">
           <SectionTag>FAQ</SectionTag>
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">Questions, answered straight</h2>
@@ -395,7 +450,7 @@ function Home() {
           </div>
         </section>
 
-        {/* ============ 10. Final CTA ============ */}
+        {/* ============ 11. Final CTA ============ */}
         <section className="relative overflow-hidden border-t border-neutral-200 bg-neutral-900 text-center dark:border-neutral-800 dark:bg-neutral-900">
           <div className="pointer-events-none absolute inset-0 opacity-55" aria-hidden>
             <img
@@ -412,7 +467,11 @@ function Home() {
             </h2>
             <div className="mt-10">
               <a
-                href={BOOK_CTA}
+                href="#enquire"
+                data-cta-id="final-cta"
+                data-cta-label="Book a strategy call"
+                data-cta-type="form"
+                data-cta-destination="#enquire"
                 className="inline-flex items-center rounded-lg bg-white px-6 py-3 text-sm font-medium text-neutral-900 transition-colors hover:bg-neutral-200"
               >
                 Book a strategy call
@@ -422,8 +481,12 @@ function Home() {
         </section>
       </main>
 
-      {/* ============ 10. Footer ============ */}
+      {/* ============ Footer ============ */}
       <SiteFooter />
+
+      {/* Non-blocking consent banner: accepts/declines analytics per the
+          privacy policy; no third-party code loads from it. */}
+      <ConsentBanner />
     </div>
   );
 }
