@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+import { trackCtaClick } from "~/lib/track";
+
 export const CONTACT_EMAIL = "throughline-marketing-5070f341@ctomail.io";
 export const BOOK_CTA =
   "mailto:throughline-marketing-5070f341@ctomail.io?subject=Strategy%20call%20request";
@@ -15,9 +17,12 @@ export function Wordmark({ className = "" }: { className?: string }) {
 export function BookButton({
   variant = "primary",
   className = "",
+  ctaId,
 }: {
   variant?: "primary" | "ghost";
   className?: string;
+  /** data-cta-id — fires cta_click via the root click delegate. */
+  ctaId?: string;
 }) {
   const base =
     variant === "primary"
@@ -25,7 +30,11 @@ export function BookButton({
       : "text-neutral-700 ring-1 ring-neutral-300 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-300 dark:ring-neutral-700 dark:hover:bg-neutral-900 dark:hover:text-white";
   return (
     <a
-      href={BOOK_CTA}
+      href="#enquire"
+      data-cta-id={ctaId}
+      data-cta-label="Book a strategy call"
+      data-cta-type="form"
+      data-cta-destination="#enquire"
       className={`inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-medium transition-colors ${base} ${className}`}
     >
       Book a strategy call
@@ -80,7 +89,11 @@ export function SiteHeader() {
           </a>
         </div>
         <a
-          href={BOOK_CTA}
+          href="#enquire"
+          data-cta-id="header-cta"
+          data-cta-label="Book a strategy call"
+          data-cta-type="form"
+          data-cta-destination="#enquire"
           className="inline-flex items-center rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
         >
           Book a strategy call
@@ -129,4 +142,28 @@ export function SiteFooter() {
       </div>
     </footer>
   );
+}
+
+/** Footer mailto link kept as the always-available email channel. */
+export function FooterEmailLink() {
+  return (
+    <a
+      href={`mailto:${CONTACT_EMAIL}`}
+      className="text-sm text-neutral-600 transition-colors hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white"
+    >
+      {CONTACT_EMAIL}
+    </a>
+  );
+}
+
+/** Root-level click delegate: route tracked CTA clicks through the track() wrapper. */
+export function initCtaTracking() {
+  if (typeof window === "undefined") return () => {};
+  const onClick = (e: MouseEvent) => {
+    const t = e.target as Element | null;
+    const el = t?.closest<HTMLElement>("[data-cta-id]") ?? null;
+    trackCtaClick(el);
+  };
+  window.document.addEventListener("click", onClick);
+  return () => window.document.removeEventListener("click", onClick);
 }
