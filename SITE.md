@@ -49,27 +49,32 @@ process, no extra port, all served on the same port 3000:
 
 ## Adding a database
 
-When the site needs to store data (form submissions, content, accounts), connect a
-database rather than writing to files:
+The site stores data in **Supabase Postgres** (leads table for the enquiry
+form). Server-side env vars `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` supply
+credentials (service-role key only in server code — never in a client bundle).
 
-1. Call `discover_tools` for a database (e.g. "serverless Postgres with a free
-   tier"). The owner connects it (Neon) from the card, which provides `DATABASE_URL`.
-2. Query it from server-only code with the built-in helper — never from the client:
+Query it from server-only code with the `~/db` helper — never from the client.
+`getSupabase()` creates the client lazily (per call, inside a
+`createServerFn()` handler or an `src/routes/api/*` route) and dynamically
+imports `@supabase/supabase-js`, so the site still builds and serves before
+the Supabase project is connected, and the prod build keeps passing:
 
-   ```tsx
-   import { createServerFn } from "@tanstack/react-start";
-   import { sql } from "~/db";
+```tsx
+import { createServerFn } from "@tanstack/react-start";
+import { getSupabase } from "~/db";
 
-   const getPosts = createServerFn().handler(async () => {
-     const rows = await sql()`select id, title, created_at from posts`;
-     // Coerce non-primitive columns before returning — timestamps come back as JS
-     // Dates, which React will not render:
-     return rows.map((r) => ({ ...r, created_at: String(r.created_at) }));
-   });
-   ```
+const getPosts = createServerFn().handler(async () => {
+  const db = await getSupabase();
+  const { data, error } = await db.from("posts").select("id, title");
+  if (error) throw error;
+  // Coerce non-primitive columns before returning — timestamps come back as JS
+  // Dates, which React will not render:
+  return data.map((r) => ({ ...r, created_at: String(r.created_at) }));
+});
+```
 
-`DATABASE_URL` is injected into this sandbox automatically once connected, and it's
-passed to the live host by `bun run go-live` — so the same code works in the preview
-and in production. If you connect the database _after_ going live, re-run
-`bun run go-live` so production picks up `DATABASE_URL`. One database serves both the
-preview and the live site.
+`SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` are injected into this sandbox
+once connected and passed to the live host on publish — the same code works in
+the preview and in production. Run `/home/team/shared/leads-schema.sql` against
+the Supabase project (management dashboard SQL editor or psql) to create the
+`leads` table. One Supabase project serves both the preview and the live site.
