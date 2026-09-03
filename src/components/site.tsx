@@ -87,6 +87,9 @@ export function SiteHeader() {
           <a href="/#faq" className="transition-colors hover:text-neutral-900 dark:hover:text-white">
             FAQ
           </a>
+          <a href="/blog" className="font-medium text-neutral-900 transition-colors hover:text-emerald-700 dark:text-white dark:hover:text-emerald-400">
+            Blog
+          </a>
         </div>
         <a
           href="#enquire"
