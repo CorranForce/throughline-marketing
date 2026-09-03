@@ -1,7 +1,7 @@
 import { createServerFn } from "@tanstack/react-start";
 import { getStartContext } from "@tanstack/start-storage-context";
 import { createHash, randomUUID } from "node:crypto";
-import { sql } from "~/db";
+import { getSupabase } from "~/db";
 
 /**
  * Strategy-call enquiry form — the site's primary conversion action
@@ -16,11 +16,12 @@ import { sql } from "~/db";
  * PII rule: form contents are written to the DB only — never logged, never
  * returned in analytics/console.
  *
- * Graceful fallback: if DATABASE_URL is missing (or the insert fails), the
- * handler returns a friendly "not ready for form submissions yet — email us"
- * state and the client shows the mailto fallback so the enquiry still reaches
- * the business inbox (the current conversion proxy, measurement-plan §1 MVP
- * note). Errors are NEVER surfaced to the visitor as a crash.
+ * Graceful fallback: if SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY are missing
+ * (or the insert fails), the handler returns a friendly "not ready for form
+ * submissions yet — email us" state and the client shows the mailto fallback
+ * so the enquiry still reaches the business inbox (the current conversion
+ * proxy, measurement-plan §1 MVP note). Errors are NEVER surfaced to the
+ * visitor as a crash.
  */
 
 // Field lengths (client + server). message is capped; company optional.
@@ -111,41 +112,51 @@ function sha256Hex(s: string): string {
   return createHash("sha256").update(s).digest("hex");
 }
 
-/** Rejected-submission bookkeeping (status='spam', never a conversion). */
+/**
+ * Rejected-submission bookkeeping (status='spam', never a conversion).
+ * Best-effort: spam bookkeeping must never take the site down.
+ */
 async function recordReject(
   submit: { name: string; email: string; company: string; message: string; ctaId: string },
   reason: RejectReason
 ): Promise<void> {
   const ip = clientIp();
   try {
-    await sql()`insert into leads (
-        id, name, email, company, message, status, source_json, ip_hash, form_id,
-        submitted_at, created_at
-      ) values (
-        ${randomUUID()}, ${submit.name}, ${submit.email}, ${submit.company || null},
-        ${submit.message || null}, 'spam', ${JSON.stringify({
-          reject_reason: reason,
-          path: referrerPath(),
-          referrer: referrerUrl(),
-          cta_id: submit.ctaId || undefined,
-        })}::jsonb, ${ip ? sha256Hex(ip) : null}, ${FORM_ID}, now(), now()
-      )`;
+    const db = await getSupabase();
+    await db.from("leads").insert({
+      id: randomUUID(),
+      name: submit.name,
+      email: submit.email,
+      company: submit.company || null,
+      message: submit.message || null,
+      status: "spam",
+      source_json: {
+        reject_reason: reason,
+        path: referrerPath() ?? null,
+        referrer: referrerUrl() ?? null,
+        cta_id: submit.ctaId || undefined,
+      },
+      ip_hash: ip ? sha256Hex(ip) : null,
+      form_id: FORM_ID,
+      submitted_at: new Date().toISOString(),
+      created_at: new Date().toISOString(),
+    });
   } catch {
     // Best-effort: spam bookkeeping must never take the site down.
   }
 }
 
-function sourceJson(ctaId: string): string {
-  return JSON.stringify({
-    path: referrerPath(),
-    referrer: referrerUrl(),
-    utm_source: qs("utm_source"),
-    utm_medium: qs("utm_medium"),
-    utm_campaign: qs("utm_campaign"),
-    utm_content: qs("utm_content"),
-    utm_term: qs("utm_term"),
+function sourceJson(ctaId: string): Record<string, unknown> {
+  return {
+    path: referrerPath() ?? null,
+    referrer: referrerUrl() ?? null,
+    utm_source: qs("utm_source") ?? null,
+    utm_medium: qs("utm_medium") ?? null,
+    utm_campaign: qs("utm_campaign") ?? null,
+    utm_content: qs("utm_content") ?? null,
+    utm_term: qs("utm_term") ?? null,
     cta_id: ctaId || undefined,
-  });
+  };
 }
 
 // ---- the server function ---------------------------------------------------
@@ -206,9 +217,13 @@ export const submitLead = createServerFn({ method: "POST" }).validator(
   // 4) Per-IP rate limit (~3/hr): any submission (pending + spam rows) in the window.
   if (ip) {
     try {
-      const rows = await sql()`select count(*)::int as n from leads
-        where ip_hash = ${sha256Hex(ip)} and created_at > now() - interval '1 hour'`;
-      if ((rows[0]?.n ?? 0) >= RATE_LIMIT) {
+      const db = await getSupabase();
+      const { count } = await db
+        .from("leads")
+        .select("id", { count: "exact", head: true })
+        .eq("ip_hash", sha256Hex(ip))
+        .gte("created_at", new Date(Date.now() - 60 * 60 * 1000).toISOString());
+      if ((count ?? 0) >= RATE_LIMIT) {
         await recordReject(submit, "rate_limit");
         return {
           ok: true,
@@ -225,8 +240,9 @@ export const submitLead = createServerFn({ method: "POST" }).validator(
 
   // 5) Email dedupe — same address may not submit twice.
   try {
-    const rows = await sql()`select id from leads where lower(email) = ${email} limit 1`;
-    if (rows.length > 0) {
+    const db = await getSupabase();
+    const { data: dupes } = await db.from("leads").select("id").eq("email", email).limit(1);
+    if (dupes && dupes.length > 0) {
       await recordReject(submit, "duplicate_email");
       return {
         ok: true,
@@ -240,18 +256,25 @@ export const submitLead = createServerFn({ method: "POST" }).validator(
     // DB unavailable — fall back, never crash.
   }
 
-  // 6) Persist. DATABASE_URL missing → db.ts throws before a query runs; this
-  //    catch is the graceful-fallback path (no error shown, mailto offered).
+  // 6) Persist. Missing SUPABASE env vars → db.ts throws before a query runs;
+  //    this catch is the graceful-fallback path (no error shown, mailto offered).
   try {
     const leadId = randomUUID();
-    await sql()`insert into leads (
-        id, name, email, company, message, status, source_json, ip_hash, form_id,
-        submitted_at, created_at
-      ) values (
-        ${leadId}, ${name}, ${email}, ${company || null}, ${message || null},
-        'pending', ${sourceJson(ctaId)}::jsonb, ${ip ? sha256Hex(ip) : null}, ${FORM_ID},
-        now(), now()
-      )`;
+    const db = await getSupabase();
+    const { error } = await db.from("leads").insert({
+      id: leadId,
+      name,
+      email,
+      company: company || null,
+      message: message || null,
+      status: "pending",
+      source_json: sourceJson(ctaId),
+      ip_hash: ip ? sha256Hex(ip) : null,
+      form_id: FORM_ID,
+      submitted_at: new Date().toISOString(),
+      created_at: new Date().toISOString(),
+    });
+    if (error) throw error;
     return { ok: true, status: "pending", lead_id: leadId, submit_duration_ms: submitDurationMs };
   } catch {
     return { ok: false, status: "fallback", submit_duration_ms: submitDurationMs };
