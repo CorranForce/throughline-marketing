@@ -1,4 +1,4 @@
-import { BookButton, SiteFooter, SiteHeader } from "~/components/site";
+import { SiteFooter, SiteHeader } from "~/components/site";
 import type { Post, Section } from "~/lib/posts";
 import { formatPublishedAt } from "~/lib/posts";
 import { ConsentBanner } from "~/components/consent-banner";
@@ -126,20 +126,6 @@ export function PostContent({ sections }: { sections: Section[] }) {
   );
 }
 
-/** The one CTA used at the foot of every post. */
-export function PostCta() {
-  return (
-    <div className="mt-12 rounded-xl border border-neutral-200 bg-neutral-50 p-6 text-center dark:border-neutral-800 dark:bg-neutral-900/40">
-      <p className="text-lg font-semibold text-neutral-900 dark:text-white">
-        Want marketing that ships?
-      </p>
-      <p className="mt-1 text-sm text-neutral-600 dark:text-neutral-400">
-        Book a free 30-minute strategy call — straight talk, even if the answer
-        isn't us.
-      </p>
-      <div className="mt-5 flex justify-center">
-        <BookButton ctaId="post-cta" />
-      </div>
-    </div>
-  );
-}
+// Note: no extra CTA at the foot of posts — each post already ends with its own
+// "Book a strategy call" link written into the source .md (one CTA per piece,
+// per brief). Adding a site-level one here would double up the ask.

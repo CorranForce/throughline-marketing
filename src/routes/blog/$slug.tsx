@@ -4,7 +4,6 @@ import {
   BlogShell,
   PostByline,
   PostContent,
-  PostCta,
   RelatedPosts,
 } from "~/components/blog";
 import { POSTS_BY_SLUG } from "~/lib/posts";
@@ -59,7 +58,6 @@ function PostPage() {
       <PostByline post={post} />
       <PostContent sections={post.sections} />
       <RelatedPosts post={post} />
-      <PostCta />
     </BlogShell>
   );
 }

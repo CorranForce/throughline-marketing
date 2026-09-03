@@ -14,10 +14,11 @@ The **company website** — a TanStack Start app (React + Vite + Tailwind):
 - `src/components/consent-banner.tsx` + `src/lib/consent.tsx` — privacy-first consent banner (Accept/Decline, persisted). Site is tracking-free today; when PostHog connects, analytics loads only after consent.
 - `src/lib/track.ts` — thin `track()` wrapper with the measurement-plan event taxonomy. No-op today; PostHog or in-house backend swappable in this one file.
 - `/terms`, `/privacy`, `/refund-policy` — the legal policy pages (ratified v1.0 documents, effective on publication).
+- `/blog` — the blog: index + per-post pages. Content ingested at build time from the Markdown sources in `content/` (source of truth: `/home/team/shared/content/`), rendered by a tiny zero-dependency parser in `src/lib/posts.ts`. Adding a post = drop a `.md` in `content/` + one registry entry in `posts.ts`. Each post carries its own meta_title/meta_description (front-matter) and exactly one CTA (a "Book a strategy call" link to the live site, written in the source). No site-level CTA boxes on post pages — the prose CTA is the single ask.
 - `public/images/` — brand imagery (abstract throughline hero motif, OG social-share card, CTA texture). Decorative only — no fake proof.
 - `src/components/` — shared site chrome (header/footer/wordmark) and the policy-page shell.
 
-## Current state (2026-09-02)
+## Current state (2026-09-03)
 
 - **Live site** with landing page + brand imagery + policy pages, **enquiry form + consent banner** (lead pipeline MVP), and ratified pricing. The enquiry form is live; leads land in the Supabase `leads` table once `SUPABASE_URL` + `SUPABASE_SERVICE_ROLE_KEY` are connected (currently falls back to email).
 - **Pricing (ratified):** The Throughline tiers — Essentials $2,500/mo, Growth $4,000/mo (flagship), Scale $6,000/mo — month-to-month. The Campaign one-off packages — Launch $2,000–3,500, Seasonal push $1,500–2,500. No setup fee (kickoff folds into the first month).
