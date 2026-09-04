@@ -1,20 +1,21 @@
 import { getConsent } from "./consent";
+import { ga4TrackEvent } from "./analytics";
 
 /**
- * Event wrapper (measurement-plan §2). Site code NEVER calls PostHog (or any
- * analytics SDK) directly — it calls `track()` here, so the backend is
+ * Event wrapper (measurement-plan §2). Site code NEVER calls gtag/GA4 (or any
+ * analytics SDK) directly — it calls `track()` here, so the backend stays
  * swappable by editing this one file:
- *   - PostHog (recommended, when connected): init posthog-js client-only in
- *     `__root.tsx` against the consent store (see ../lib/consent.tsx), then map
- *     `track` -> `posthog.capture(name, props)`.
- *   - In-house fallback: `track` -> `fetch("/api/track", { method: "POST", ... })`
- *     -> Neon SQL + reporting view.
+ *   - GA4 (owner-chosen, consent-gated): gtag snippet loads ONLY after the
+ *     visitor accepts (see ~/lib/analytics.ts), and `track` maps to
+ *     `gtag('event', name, props)` with the context block below.
+ *   - PostHog remains an optional future backend: map `track` ->
+ *     `posthog.capture(name, props)` and init posthog-js against the consent
+ *     store — the consent gate stays identical (events drop unless consent ===
+ *     "accepted").
  *
- * Today the site is tracking-free and must STAY that way. The default is a
- * console-safe no-op stub that keeps the event pipeline exercised (and the
- * console annotations aid dev verification) without sending anything anywhere.
- * The PostHog consent gate is already wired: events are dropped unless the
- * visitor accepted analytics.
+ * The consent gate lives here (and in analytics.ts), so call sites stay simple
+ * and events never leak before a choice. Declined/undecided visitors: console-
+ * safe no-op, nothing sent anywhere.
  *
  * PII rule (measurement-plan §2, compliance-baseline §2.3): form contents
  * (name/email/company/message) are stored in the DB only. NEVER pass them as
@@ -48,17 +49,25 @@ function context(): TrackProps {
 }
 
 /**
- * Fire an event. No-op today (tracking-free baseline); wired to
- * posthog-capture once connected AND consent accepted. The consent gate lives
- * here, so call sites stay simple and events never leak before a choice.
+ * Fire an event. Consent-gated: when the visitor accepted, maps to a GA4
+ * custom event with the context block merged in; otherwise (declined or
+ * undecided) it stays a console-safe no-op and sends nothing.
  */
 export function track(name: string, props?: TrackProps): void {
-  if (getConsent() !== "accepted") return;
-  // Development-only console marker — no PII is ever passed (enforced by
-  // convention in this file; review any new call site against the PII rule).
+  const ctx = context();
+  if (getConsent() !== "accepted") {
+    // Development-only console marker — no PII is ever passed (enforced by
+    // convention in this file; review any new call site against the PII rule).
+    if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.debug(`[track] ${name} (consent-gated, no-op)`, { ...ctx, ...props });
+    }
+    return;
+  }
+  ga4TrackEvent(name, { ...ctx, ...props });
   if (import.meta.env.DEV) {
     // eslint-disable-next-line no-console
-    console.debug(`[track] ${name}`, { ...context(), ...props });
+    console.debug(`[track] ${name} → GA4`, { ...ctx, ...props });
   }
 }
 
