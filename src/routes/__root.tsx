@@ -1,7 +1,10 @@
-import { HeadContent, Outlet, Scripts, createRootRoute } from "@tanstack/react-router";
+import { HeadContent, Outlet, Scripts, createRootRoute, useRouterState } from "@tanstack/react-router";
+import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
 
 import appCss from "~/styles/app.css?url";
+import { ensureGtagLoaded, sendGa4PageView } from "~/lib/analytics";
+import { consentStore } from "~/lib/consent";
 
 // Absolute origin for social-card metadata (og:image etc.). Scrapers require an
 // absolute URL; the live site origin is the only public origin the cards will
@@ -57,6 +60,38 @@ export const Route = createRootRoute({
 });
 
 function RootComponent() {
+  // GA4 (owner-chosen backend, consent-gated): if the visitor accepted on a
+  // previous visit, load gtag on first client render (nothing loads before a
+  // choice); accept during this visit also triggers the load via the consent
+  // subscription below. Decline/undecided: gtag never loads.
+  useEffect(() => {
+    ensureGtagLoaded();
+    return consentStore.subscribe((c) => {
+      if (c === "accepted") ensureGtagLoaded();
+    });
+  }, []);
+
+  // page_view tracking on client-side route changes. The initial page view is
+  // emitted by the gtag config (send_page_view: true) when the snippet loads —
+  // this effect only fires on SUBSEQUENT route changes (pathname changed), so
+  // a load with persisted consent doesn't double-count the first page view.
+  const location = useRouterState({ select: (s) => s.location });
+  const pathname = location.pathname;
+  const lastPathnameRef = useRef<string | undefined>(undefined);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (lastPathnameRef.current === undefined) {
+      // Mount run — initial page view is already covered by gtag's config at
+      // load (when consent was accepted on a previous visit). If the visitor
+      // accepts LATER in this session, ensureGtagLoaded's config covers it.
+      lastPathnameRef.current = pathname;
+      return;
+    }
+    if (lastPathnameRef.current === pathname) return;
+    lastPathnameRef.current = pathname;
+    sendGa4PageView();
+  }, [pathname]);
+
   return (
     <RootDocument>
       <Outlet />

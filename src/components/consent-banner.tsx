@@ -3,12 +3,13 @@ import { useConsent, setConsent } from "~/lib/consent";
 /**
  * Lightweight, non-blocking analytics-consent banner (measurement-plan §6,
  * compliance-baseline gap P0). Shown once per visitor until they choose;
- * Accept/Decline persisted in localStorage ("throughline-consent").
+ * Accept/Decline persisted in localStorage ("throughline-consent") — Declining
+ * stores "declined" so the banner never re-asks on later visits.
  *
- * Declined ≠ un-tracked (the site is tracking-free today either way): it just
- * means "don't ask again". When PostHog connects, analytics loads ONLY after
- * Accept — the hook point lives in ~/lib/consent.tsx and is enforced in
- * ~/lib/track.ts (events drop unless consent === "accepted").
+ * Declined ≠ tracked: analytics (GA4 — owner-chosen) loads ONLY after Accept —
+ * the hook point lives in ~/lib/consent.tsx and is enforced in ~/lib/track.ts
+ * (events drop unless consent === "accepted") and in ~/lib/analytics.ts (the
+ * gtag script itself only loads on accept).
  *
  * Non-blocking: fixed to the viewport's bottom edge, never an overlay on top
  * of content; page content is fully readable behind it.
