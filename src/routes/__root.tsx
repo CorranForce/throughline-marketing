@@ -1,5 +1,5 @@
 import { HeadContent, Outlet, Scripts, createRootRoute, useRouterState } from "@tanstack/react-router";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
 
 import appCss from "~/styles/app.css?url";
@@ -72,15 +72,25 @@ function RootComponent() {
   }, []);
 
   // page_view tracking on client-side route changes. The initial page view is
-  // emitted by gtag's config (send_page_view: true) when the snippet loads;
-  // this effect re-configs on every subsequent route change (matchedPathname
-  // changes, the effect fires once, gtag emits a page_view for the new path).
+  // emitted by the gtag config (send_page_view: true) when the snippet loads —
+  // this effect only fires on SUBSEQUENT route changes (pathname changed), so
+  // a load with persisted consent doesn't double-count the first page view.
   const location = useRouterState({ select: (s) => s.location });
-  const matchedPathname = location.match.pathname;
+  const pathname = location.pathname;
+  const lastPathnameRef = useRef<string | undefined>(undefined);
   useEffect(() => {
     if (typeof window === "undefined") return;
+    if (lastPathnameRef.current === undefined) {
+      // Mount run — initial page view is already covered by gtag's config at
+      // load (when consent was accepted on a previous visit). If the visitor
+      // accepts LATER in this session, ensureGtagLoaded's config covers it.
+      lastPathnameRef.current = pathname;
+      return;
+    }
+    if (lastPathnameRef.current === pathname) return;
+    lastPathnameRef.current = pathname;
     sendGa4PageView();
-  }, [matchedPathname]);
+  }, [pathname]);
 
   return (
     <RootDocument>
