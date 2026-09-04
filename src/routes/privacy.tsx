@@ -23,9 +23,9 @@ const SUBPROCESSORS: { provider: string; purpose: string; status: string }[] = [
     status: "When the form + DB ships",
   },
   {
-    provider: "PostHog",
+    provider: "Google Analytics 4",
     purpose: "Analytics (events only, no PII)",
-    status: "Planned — after consent controls",
+    status: "Live — loads only after you accept (Section 6)",
   },
   {
     provider: "Stripe",
@@ -94,9 +94,10 @@ function Privacy() {
             same minimum — nothing else.
           </>,
           <>
-            <strong>(d) Analytics (planned):</strong> pseudonymous events — page
-            views, clicks, scroll depth, which sections you saw, device and
-            browser type, referrer, and UTM parameters.{" "}
+            <strong>(d) Analytics: Google Analytics 4 (live, consent-gated):</strong>{" "}
+            pseudonymous events — page views, clicks, scroll depth, which
+            sections you saw, device and browser type, referrer, and UTM
+            parameters.{" "}
             <strong>
               No names, emails, or other personal identifiers ever appear in
               analytics events.
@@ -139,10 +140,11 @@ function Privacy() {
             protecting the site from abuse.
           </>,
           <>
-            <strong>Consent</strong> — non-essential analytics for visitors in
-            the EEA/UK (we ask first, and you can withdraw at any time), and
-            trial-communication email (given by signing up for the trial,
-            withdrawable at any time — Section 14).
+            <strong>Consent</strong> — analytics for all visitors (we ask first
+            via the consent banner, and only load tracking after you accept;
+            you can withdraw at any time), and trial-communication email (given
+            by signing up for the trial, withdrawable at any time — Section
+            14).
           </>,
           <>
             <strong>Contract</strong> — payments and services when you become a
@@ -170,8 +172,9 @@ function Privacy() {
             provider (<strong>ctomail.io</strong>).
           </>,
           <>
-            <strong>Analytics events (planned):</strong> <strong>PostHog</strong>{" "}
-            — events only, no personal identifiers.
+            <strong>Analytics events (live — consent-gated):</strong>{" "}
+            <strong>Google Analytics 4</strong> — events only, no personal
+            identifiers.
           </>,
           <>
             <strong>Payments (planned):</strong> <strong>Stripe</strong> — card
@@ -180,28 +183,48 @@ function Privacy() {
         ]}
       />
       <P>
-        All of these are reputable providers, and we'll have data-processing
-        agreements in place with each of them <strong>before</strong> they
-        connect. We'll link each provider's own privacy policy alongside this
-        one.
+        All of these are reputable providers. We'll link each provider's own
+        privacy policy alongside this one — including Google's Analytics privacy
+        policy (Section 6). We add data-processing agreements with providers
+        before they connect, and won't claim one we don't yet have.
       </P>
 
       <DocHeading>6. Cookies &amp; analytics</DocHeading>
       <Ul
         items={[
           <>
-            <strong>Today: none.</strong> No trackers, no analytics cookies,
-            nothing that follows you around. We keep it that way until this
-            policy is published and a consent mechanism exists.
+            <strong>Analytics is live — consent-gated.</strong> We use{" "}
+            <strong>Google Analytics 4</strong> (the analytics backend we
+            chose) to understand what's useful on this site. Nothing tracks you
+            until you say it's OK: the analytics script loads{" "}
+            <strong>only after you click Accept</strong> on the consent banner.
+            If you decline — or haven't chosen yet — analytics never loads and
+            nothing is sent. Your choice (Accept or Decline) is remembered on
+            this browser so the banner shows once per visitor.
           </>,
           <>
-            <strong>When analytics connects (planned):</strong> visitors in the{" "}
-            <strong>EEA/UK</strong> will see a consent banner, and tracking loads
-            <strong> only after you accept</strong>. You can withdraw consent the
-            same way. Visitors outside the EEA/UK will have analytics run
-            without a banner.
+            <strong>Pseudonymous, event-only, no PII.</strong> Analytics events
+            carry only page path, page title, UTM parameters, device type, a
+            session id, and a page version — plus custom events like button
+            clicks. <strong>No names, emails, or other personal identifiers
+            ever appear in analytics events.</strong> Form contents (name,
+            email, company, message) live in the database only, never in
+            analytics. Events are kept 12 months, then deleted (Section 7).
           </>,
-          <>We'll link PostHog's privacy policy here when analytics goes live.</>,
+          <>
+            Google's own Analytics privacy policy governs Google's handling of
+            this data:{" "}
+            <a
+              href="https://policies.google.com/privacy"
+              target="_blank"
+              rel="noreferrer"
+              className="font-medium text-emerald-700 underline-offset-2 hover:underline dark:text-emerald-400"
+            >
+              policies.google.com/privacy
+            </a>
+            . You can withdraw analytics consent any time — via the banner
+            choice or by emailing the inbox in Section 1.
+          </>,
         ]}
       />
 
@@ -266,8 +289,8 @@ function Privacy() {
 
       <DocHeading>9. Who we share data with (subprocessors)</DocHeading>
       <P>
-        Only the providers needed to run the business — named honestly, as they
-        connect:
+        Only the providers needed to run the business — named honestly, with
+        their live-or-planned status in the table:
       </P>
       <div className="my-5 overflow-x-auto">
         <table className="w-full border-collapse text-sm">
@@ -302,8 +325,9 @@ function Privacy() {
       </div>
       <P>
         We <strong>never sell your data</strong>. We don't share it with anyone
-        else, except where the law requires us to. Data-processing agreements
-        will be in place with each provider before they connect.
+        else, except where the law requires us to. We add data-processing
+        agreements with providers before they connect, and won't claim one we
+        don't yet have.
       </P>
 
       <DocHeading>10. Payments</DocHeading>
