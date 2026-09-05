@@ -1,7 +1,7 @@
 /**
  * Blog content registry (build-time ingestion).
  *
- * Source of truth for the three launch posts: the Markdown files under
+ * Source of truth for the blog posts: the Markdown files under
  * /home/team/shared/content/ (mirrored into ./content/ in this repo). Each
  * post is imported as raw text via Vite's `?raw` suffix and parsed by
  * `parsePost()` below, so the shared .md files keep driving the rendered
@@ -10,13 +10,21 @@
  * The registry carries the publish metadata that lives OUTSIDE the Markdown:
  * slug, publish date (brand constraint: today, never invented), hand-set
  * excerpts, reading times, and cross-post "related" links. Slugs are clean
- * and keyword-honest, matching each post's primary keyword.
+ * and keyword-honest, matching each post's primary keyword. Front-matter
+ * `status:` stays `draft` in the .md files — `publishedAt` here is what
+ * makes a post live.
  */
 import cornerstoneRaw from "../../content/01-cornerstone.md?raw";
 import cadenceRaw from "../../content/02-cadence-playbook.md?raw";
 import hireRaw from "../../content/03-hire-decision.md?raw";
+import distributionRaw from "../../content/04-distribution.md?raw";
+import seoRaw from "../../content/05-seo-for-startups.md?raw";
+import measurementRaw from "../../content/06-marketing-measurement.md?raw";
 
+/** Launch batch (posts 01–03), published together. */
 export const PUBLISHED_AT = "2026-09-03";
+/** Cycle-2 batch (posts 04–06), published together. */
+export const CYCLE_2_PUBLISHED_AT = "2026-09-05";
 
 export type Post = {
   slug: string;
@@ -56,12 +64,23 @@ function attr(text: string): string {
 }
 
 /**
+ * Strip a leading YAML front-matter block (`---` fenced) from a post's raw
+ * text, so the parser only ever sees the body. Without this, the front-matter
+ * (including `status:` and FAQ YAML) would render as the article's first
+ * paragraph.
+ */
+function stripFrontmatter(md: string): string {
+  return md.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n/, "");
+}
+
+/**
  * Parse the tiny Markdown subset the posts actually use: `#`/`##`/`###`
  * headings, paragraphs, and inline `[text](url)` links. Everything else we
  * keep plain. Returns the H1 + body sections (H1 is rendered as the page's
  * own heading, not duplicated inside the article).
  */
-export function parsePost(md: string): { h1: string; sections: Section[] } {
+export function parsePost(raw: string): { h1: string; sections: Section[] } {
+  const md = stripFrontmatter(raw);
   const lines = md.split("\n");
   let h1 = "";
   const sections: Section[] = [];
@@ -123,19 +142,19 @@ function fromFrontmatter(raw: string, key: string): string {
 }
 
 /**
- * Reading time: average prose reading speed 240 wpm, rounded up, floored at 1.
+ * Reading time: average prose reading speed 240 wpm over the post body
+ * (front-matter excluded), rounded up, floored at 1. 240 wpm is the value
+ * the hand-set minutes for posts 01–03 were calibrated against.
  */
-export function readingMinutes(body: Section[], wordsPerMin = 240): number {
-  const words = body.reduce((n, s) => {
-    if (s.type === "paragraph") {
-      return n + s.html.replace(/<[^>]+>/g, " ").split(/\s+/).filter(Boolean).length;
-    }
-    return n;
-  }, 0);
+export function readingMinutes(md: string, wordsPerMin = 240): number {
+  const words = stripFrontmatter(md)
+    .replace(/<[^>]+>/g, " ")
+    .split(/\s+/)
+    .filter(Boolean).length;
   return Math.max(1, Math.ceil(words / wordsPerMin));
 }
 
-export const POSTS: Post[] = [
+const POSTS_ALL: Post[] = [
   {
     slug: "the-missing-piece-isnt-strategy-its-throughput",
     title: fromFrontmatter(cornerstoneRaw, "title"),
@@ -151,8 +170,8 @@ export const POSTS: Post[] = [
         title: "The 90-day marketing cadence for a startup with product-market fit",
       },
       {
-        slug: "inhouse-agency-or-execution-partner-how-to-decide",
-        title: "In-house team, agency, or an execution partner: how to decide",
+        slug: "how-to-actually-distribute-your-content-as-a-startup",
+        title: "How to actually distribute your content as a startup",
       },
     ],
     ...parsePost(cornerstoneRaw),
@@ -172,8 +191,8 @@ export const POSTS: Post[] = [
         title: "The missing piece isn't strategy. It's throughput.",
       },
       {
-        slug: "inhouse-agency-or-execution-partner-how-to-decide",
-        title: "In-house team, agency, or an execution partner: how to decide",
+        slug: "how-to-measure-marketing-when-youre-too-small-for-a-dashboard",
+        title: "How to measure marketing when you're too small for a dashboard",
       },
     ],
     ...parsePost(cadenceRaw),
@@ -193,15 +212,87 @@ export const POSTS: Post[] = [
         title: "The missing piece isn't strategy. It's throughput.",
       },
       {
-        slug: "the-90-day-marketing-cadence",
-        title: "The 90-day marketing cadence for a startup with product-market fit",
+        slug: "how-to-actually-distribute-your-content-as-a-startup",
+        title: "How to actually distribute your content as a startup",
       },
     ],
     ...parsePost(hireRaw),
   },
+  {
+    slug: "how-to-actually-distribute-your-content-as-a-startup",
+    title: fromFrontmatter(distributionRaw, "title"),
+    metaTitle: fromFrontmatter(distributionRaw, "meta_title"),
+    metaDescription: fromFrontmatter(distributionRaw, "meta_description"),
+    excerpt:
+      "Most startups publish and wait for the visitors to show up. Here's the distribution loop that actually gets a shipped piece seen: one distribution touch per shippable, channels chosen where your buyers already are, and honest expectations about how it compounds.",
+    publishedAt: CYCLE_2_PUBLISHED_AT,
+    readingMinutes: 6,
+    related: [
+      {
+        slug: "the-missing-piece-isnt-strategy-its-throughput",
+        title: "The missing piece isn't strategy. It's throughput.",
+      },
+      {
+        slug: "the-90-day-marketing-cadence",
+        title: "The 90-day marketing cadence for a startup with product-market fit",
+      },
+    ],
+    ...parsePost(distributionRaw),
+  },
+  {
+    slug: "seo-for-early-stage-startups-what-actually-moves-rankings",
+    title: fromFrontmatter(seoRaw, "title"),
+    metaTitle: fromFrontmatter(seoRaw, "meta_title"),
+    metaDescription: fromFrontmatter(seoRaw, "meta_description"),
+    excerpt:
+      "Nobody can sell a startup a ranking. SEO for early-stage teams is a slow compound: technical basics that prevent self-inflicted damage, content aimed at real search intent, and links earned over months. Here's the honest version.",
+    publishedAt: CYCLE_2_PUBLISHED_AT,
+    readingMinutes: 7,
+    related: [
+      {
+        slug: "the-90-day-marketing-cadence",
+        title: "The 90-day marketing cadence for a startup with product-market fit",
+      },
+      {
+        slug: "how-to-measure-marketing-when-youre-too-small-for-a-dashboard",
+        title: "How to measure marketing when you're too small for a dashboard",
+      },
+    ],
+    ...parsePost(seoRaw),
+  },
+  {
+    slug: "how-to-measure-marketing-when-youre-too-small-for-a-dashboard",
+    title: fromFrontmatter(measurementRaw, "title"),
+    metaTitle: fromFrontmatter(measurementRaw, "meta_title"),
+    metaDescription: fromFrontmatter(measurementRaw, "meta_description"),
+    excerpt:
+      "Dashboards hide more than they reveal when you're small. The honest version of measurement is three numbers tied to the pipeline, a publish log, and a monthly readout that names one change.",
+    publishedAt: CYCLE_2_PUBLISHED_AT,
+    readingMinutes: 6,
+    related: [
+      {
+        slug: "the-90-day-marketing-cadence",
+        title: "The 90-day marketing cadence for a startup with product-market fit",
+      },
+      {
+        slug: "the-missing-piece-isnt-strategy-its-throughput",
+        title: "The missing piece isn't strategy. It's throughput.",
+      },
+    ],
+    ...parsePost(measurementRaw),
+  },
 ];
 
-/** Sorted newest-first (all three post today; ordering is stable by intent). */
+/** Public list, newest publish date first (the blog index renders this array
+ * in order). Sorting is stable, so within the same date the authored order is
+ * kept — cornerstones first for the launch batch, 04→06 for cycle 2. */
+export const POSTS: Post[] = [...POSTS_ALL].sort(
+  (a, b) =>
+    b.publishedAt.localeCompare(a.publishedAt) ||
+    POSTS_ALL.indexOf(a) - POSTS_ALL.indexOf(b),
+);
+
+/** Slug lookup for routes and per-post head() tags. */
 export const POSTS_BY_SLUG: Record<string, Post> = Object.fromEntries(
   POSTS.map((p) => [p.slug, p]),
 );
