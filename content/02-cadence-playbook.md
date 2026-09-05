@@ -5,19 +5,26 @@ meta_description: "A week-by-week content cadence for startups: channel plan, on
 primary_keyword: content cadence for startups
 secondary_keywords: [startup marketing plan]
 target_length: 1200–1500 words
-status: published
+status: draft
 author: Throughline Team
+faq:
+  - q: "What is a content cadence?"
+    a: "A content cadence is the rhythm of work that produces the pipeline: one shippable a week, shipped and distributed on schedule, against a channel plan. It is what your marketing actually looks like, not the strategy doc."
+  - q: "What should a startup do in the first 90 days of marketing?"
+    a: "Weeks one and two are planning: an audit-lite and a channel plan with the first month of pieces scheduled. From week three, ship one shippable a week with a distribution touch, and run a monthly readout that names one change."
+  - q: "How much time does the cadence take each week?"
+    a: "A realistic early-team budget is four to six hours a week for production and one for distribution. If a week runs over, ship the piece anyway: shipped and imperfect beats perfect and absent."
 ---
 
 # The 90-day marketing cadence for a startup with product-market fit
 
+Run this 90-day cadence: spend weeks one and two on an audit-lite and a channel plan, then ship one shippable a week with a distribution touch, and run a monthly readout that names one change. It assumes one thing you should check first: product-market fit.
+
+If you don't have it yet, skip marketing for now and fix the product. Marketing accelerates fit; it doesn't create it.
+
 A content cadence is what your marketing actually looks like: not the strategy doc, but the rhythm of work that produces the pipeline.
 
 Most startups don't have one. They have a plan for launch week and hope for the rest.
-
-This is a 90-day cadence you can run yourself. It assumes one thing you should check first: product-market fit.
-
-If you don't have it yet, skip marketing for now and fix the product. Marketing accelerates fit; it doesn't create it.
 
 ## Weeks 1–2: the channel plan and audit-lite
 
@@ -128,6 +135,20 @@ With an in-house hire, you trade hiring risk and payroll for control of a channe
 With an execution team, the plan, the production, and the measurement all have an owner. You keep the review; you don't keep the production.
 
 Every option moves the same three numbers: shippables per week, distribution touchpoints, and readout changes. Whoever owns all three owns the throughput.
+
+## Questions founders ask about the 90-day cadence
+
+What is a content cadence?
+
+A content cadence is the rhythm of work that produces the pipeline: a channel plan matched to your buyers, one shippable a week shipped and distributed, and a monthly readout that names one change. Most startups don't have one. They have a plan for launch week and hope for the rest.
+
+What should a startup do in the first 90 days of marketing?
+
+Weeks one and two are planning: an audit-lite and a channel plan, with the first month of pieces scheduled on a visible calendar. From week three, ship one shippable a week with one distribution touch and keep the publish log current. Month one sets up, month two finds rhythm, month three decides which channel earns the pipeline.
+
+How much time does the cadence take each week?
+
+A realistic early-team budget is four to six hours a week for production and one for distribution. Pick a ship day and defend it like a product sprint. If a week runs over, ship the piece anyway, because shipped and imperfect beats perfect and absent.
 
 ## The honest versions
 

@@ -5,11 +5,22 @@ meta_description: "Startup marketing stalls in starts and stops. The missing pie
 primary_keyword: startup marketing execution
 secondary_keywords: [marketing for early-stage startups, content cadence]
 target_length: 1800–2400 words
-status: published
+status: draft
 author: Throughline Team
+faq:
+  - q: "What is marketing throughput?"
+    a: "Throughput is the gap between what the plan says and what actually ships, week after week. A brilliant plan with a production gap is still an empty pipeline."
+  - q: "How do you measure throughput?"
+    a: "Count shippables per week and keep a publish log of dates and pieces. One shippable a week is a real engine for an early team, and zero for three weeks is a stopped one."
+  - q: "Why won't another strategy fix stalled marketing?"
+    a: "A new strategy is a new doc, and a doc doesn't ship content. If the constraint is production — drafting, approving, publishing, distributing — more planning leaves it exactly where it was."
 ---
 
 # The missing piece isn't strategy. It's throughput.
+
+The missing piece is throughput: the gap between what the plan says and what actually ships, week after week. Founders rarely lack strategy. What stalls marketing is production.
+
+Throughput is a production problem, and production problems have operating answers: a channel mix matched to your buyers, a cadence that ships, and a monthly readout that changes what you do next.
 
 Your last launch probably went like this. You spent two weeks on positioning, refined the message, and wrote a content plan for the quarter.
 
@@ -206,6 +217,20 @@ There's no universal right answer. There's the answer that matches your stage, y
 Pay attention to what you're really buying. Strategy is cheap to buy and hard to execute, and execution is the scarce resource in early marketing.
 
 What doesn't work is deciding the strategy and never assigning the production. That's how another quarter disappears.
+
+## Questions founders ask about throughput
+
+What is marketing throughput?
+
+Throughput is the gap between what the plan says and what actually ships, week after week. Throughput is why two teams with the same strategy get different results: one ships on schedule, and the other restarts every quarter.
+
+How do you measure throughput?
+
+Count shippables per week and keep a publish log: one column of dates, one column of pieces. One shippable a week is a real engine for an early team, two is healthy, and zero for three weeks is a stopped engine. The log also shows the plan-to-execution gap in one glance.
+
+Why won't another strategy fix stalled marketing?
+
+A new strategy is a new doc, and a doc doesn't ship content. Strategy becomes outcome only through production: drafting, designing, approving, scheduling, distributing. If the constraint is that work, more planning leaves it exactly where it was.
 
 ## Start with one shippable
 

@@ -5,11 +5,20 @@ meta_description: "The real trade-offs are cost, control, hiring risk, and throu
 primary_keyword: startup in-house marketing team vs agency
 secondary_keywords: [fractional CMO vs agency]
 target_length: 1200–1500 words
-status: published
+status: draft
 author: Throughline Team
+faq:
+  - q: "Should a startup hire in-house or hire an agency?"
+    a: "Hire in-house when marketing will stay core to your business for years and you can spend three months on the search. Hire an agency for a defined scope, like a launch or a channel you don't know how to run."
+  - q: "When does a fractional CMO make sense?"
+    a: "When you already have an execution engine and need senior direction on top of it. A fractional CMO produces a roadmap, and the roadmap still needs someone to execute it."
+  - q: "How do you know if you have a throughput gap?"
+    a: "Ask what stopped the last three months of marketing. If the answer is that you didn't have the hours, the bottleneck is production, not strategy, and hiring another strategist won't close it."
 ---
 
 # In-house team, agency, or an execution partner: how to decide
+
+Decide on four trade-offs: cost, control, hiring risk, and throughput. Most founders choose on cost and control, and that is how the throughput gap survives. The fastest test: if the last three months stalled because you lacked hours, you have a throughput gap, and hiring a strategist will not close it.
 
 At some point, every startup founder who has shipped a product looks up and admits the marketing isn't happening.
 
@@ -110,6 +119,20 @@ Third: can you spend three months and the search cost on a single hire? If not, 
 Fourth: do you have the facts to brief someone well — target buyer, product, pricing, current analytics? Without those, no option works, and the first step is assembling them.
 
 Fifth: who will own the calendar while this arrangement runs? If the answer is you, the arrangement isn't fixing the bottleneck, it's decorating it.
+
+## Questions founders ask about the hire decision
+
+Should a startup hire in-house or hire an agency?
+
+Hire in-house when marketing will stay core to your business for years and you can spend three months on the search and ramp. Hire an agency for a defined scope, like a launch or a channel you don't know how to run. Watch the failure modes: in-house makes you a marketing manager, and agency scope creep turns a fixed project into a half-used subscription.
+
+When does a fractional CMO make sense?
+
+When you already have an execution engine and need senior direction on top of it. A fractional CMO produces a roadmap for a few days a month, and the roadmap still needs someone to execute it. With no one to execute, the roadmap lands on the founder to-do list, and the gap between plan and ship stays where it was.
+
+How do you know if you have a throughput gap?
+
+Ask what stopped the last three months of marketing. If the answer is that you didn't have the hours, the bottleneck is production, not strategy, and hiring another strategist won't close it. If the answer is that you didn't know what to do, you have a strategy gap, and a fractional CMO or an agency brief can genuinely help.
 
 ## The outcome is a clearer decision
 
