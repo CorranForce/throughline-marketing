@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { ConsentBanner } from "~/components/consent-banner";
 import { EnquiryForm } from "~/components/enquiry-form";
 import {
+  CONSULT_PATH,
   BookButton,
   CheckIcon,
   SectionTag,
@@ -205,11 +206,12 @@ function Home() {
                     ))}
                   </ul>
                   <a
-                    href="#enquire"
+                    href={CONSULT_PATH}
                     data-cta-id={`pricing-${tier.name.toLowerCase()}`}
                     data-cta-label="Book a strategy call"
-                    data-cta-type="form"
-                    data-cta-destination="#enquire"
+                    data-cta-type="page"
+                    data-cta-location="homepage-pricing-tier"
+                    data-cta-destination={CONSULT_PATH}
                     className={`mt-8 inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-medium transition-colors ${
                       tier.popular
                         ? "bg-neutral-900 text-white hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
@@ -275,11 +277,12 @@ function Home() {
 
             <div className="mt-10 flex flex-col items-center gap-4 text-center">
               <a
-                href="#enquire"
+                href={CONSULT_PATH}
                 data-cta-id="pricing-cta"
                 data-cta-label="Book a strategy call"
-                data-cta-type="form"
-                data-cta-destination="#enquire"
+                data-cta-type="page"
+                data-cta-location="homepage-pricing"
+                data-cta-destination={CONSULT_PATH}
                 className="inline-flex items-center justify-center rounded-lg bg-neutral-900 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
               >
                 Book a strategy call
@@ -467,11 +470,12 @@ function Home() {
             </h2>
             <div className="mt-10">
               <a
-                href="#enquire"
+                href={CONSULT_PATH}
                 data-cta-id="final-cta"
                 data-cta-label="Book a strategy call"
-                data-cta-type="form"
-                data-cta-destination="#enquire"
+                data-cta-type="page"
+                data-cta-location="homepage-final"
+                data-cta-destination={CONSULT_PATH}
                 className="inline-flex items-center rounded-lg bg-white px-6 py-3 text-sm font-medium text-neutral-900 transition-colors hover:bg-neutral-200"
               >
                 Book a strategy call

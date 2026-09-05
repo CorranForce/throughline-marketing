@@ -137,4 +137,4 @@ You can run it yourself for 90 days and see what the numbers say. That's the hon
 
 It's also exactly the cadence we run for clients on our monthly retainer: we plan it, produce it, and measure it, and you review instead of producing. We don't have client results to show you yet — we're new, and we'd rather say so than pretend — but the operating model described here is the model we run.
 
-If the founder-as-producer part is the part you can't sustain, that's the gap a team fills. [Book a strategy call](https://56837846f7a044416ea4911e5b3a5c3f.ctonew.app) and we'll map your channel mix, your cadence, and your first readout in one call, before you commit to anything.
+If the founder-as-producer part is the part you can't sustain, that's the gap a team fills. [Book a strategy call](https://56837846f7a044416ea4911e5b3a5c3f.ctonew.app/consult) and we'll map your channel mix, your cadence, and your first readout in one call, before you commit to anything.

@@ -159,4 +159,4 @@ Posting is publishing to your own feed. Distributing is taking the piece to wher
 
 Distribution is the half of content everyone skips, and it's the half that turns shipping into pipeline. The loop is small enough to run this week: ship the piece, attach one touch, and log it next to the piece.
 
-If your content is already shipping and nobody is seeing it, that's a distribution gap, and it's fixable with a calendar rather than a budget. [Book a strategy call](https://56837846f7a044416ea4911e5b3a5c3f.ctonew.app) and we'll map your channel mix and distribution loop in one conversation.
+If your content is already shipping and nobody is seeing it, that's a distribution gap, and it's fixable with a calendar rather than a budget. [Book a strategy call](https://56837846f7a044416ea4911e5b3a5c3f.ctonew.app/consult) and we'll map your channel mix and distribution loop in one conversation.

@@ -115,6 +115,9 @@ export function EnquiryForm({ ctaId, formVersion }: EnquiryFormProps) {
       setValidation(null);
 
       const data = new FormData(form!);
+      // UTMs are read from the page URL at submit time and forwarded with the
+      // payload — the server-fn POST URL doesn't carry them. Non-PII tokens.
+      const q = new URLSearchParams(window.location.search);
       const payload = {
         name: String(data.get("name") ?? ""),
         email: String(data.get("email") ?? ""),
@@ -122,6 +125,13 @@ export function EnquiryForm({ ctaId, formVersion }: EnquiryFormProps) {
         message: String(data.get("message") ?? ""),
         website: String(data.get("website") ?? ""), // honeypot
         ctaId,
+        utms: {
+          utm_source: q.get("utm_source") ?? undefined,
+          utm_medium: q.get("utm_medium") ?? undefined,
+          utm_campaign: q.get("utm_campaign") ?? undefined,
+          utm_content: q.get("utm_content") ?? undefined,
+          utm_term: q.get("utm_term") ?? undefined,
+        },
         startedAt: start,
       };
 

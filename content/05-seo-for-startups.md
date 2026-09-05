@@ -165,4 +165,4 @@ No. The free basics are enough to start: your own pages, a spreadsheet of topics
 
 SEO isn't a project you finish. It's a cadence you keep: baseline fixed, content shipped on schedule, links earned through the work, and a monthly readout that changes one thing.
 
-If that sounds like the rest of your marketing, it should. Ranking is the outcome of the throughput loop, not a separate discipline. [Book a strategy call](https://56837846f7a044416ea4911e5b3a5c3f.ctonew.app) and we'll map the content cluster, the technical baseline, and the readout that tells you what's working.
+If that sounds like the rest of your marketing, it should. Ranking is the outcome of the throughput loop, not a separate discipline. [Book a strategy call](https://56837846f7a044416ea4911e5b3a5c3f.ctonew.app/consult) and we'll map the content cluster, the technical baseline, and the readout that tells you what's working.

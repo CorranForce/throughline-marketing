@@ -58,6 +58,18 @@ type Input = {
   message?: string;
   website?: string; // honeypot — bots fill this; humans never see it
   ctaId?: string; // from data-cta-id of the originating CTA (non-PII)
+  /**
+   * UTMs read client-side from the page URL at submit time (non-PII). The
+   * server-fn POST URL doesn't carry the page's query string, so the client
+   * forwards them; sourceJson() prefers these, falling back to qs().
+   */
+  utms?: {
+    utm_source?: string;
+    utm_medium?: string;
+    utm_campaign?: string;
+    utm_content?: string;
+    utm_term?: string;
+  };
   /** Epoch ms of first field focus (set by the client). Bot check lives here. */
   startedAt?: number;
 };
@@ -146,15 +158,29 @@ async function recordReject(
   }
 }
 
-function sourceJson(ctaId: string): Record<string, unknown> {
+function sourceJson(
+  ctaId: string,
+  utms?: {
+    utm_source?: string;
+    utm_medium?: string;
+    utm_campaign?: string;
+    utm_content?: string;
+    utm_term?: string;
+  },
+): Record<string, unknown> {
+  // Client-forwarded UTMs win: the server-fn POST URL doesn't carry the page's
+  // query string, so qs() reads the / consult arrival UTMs only when the client
+  // payload can't (older clients). All values are non-PII attribution tokens.
+  const pick = (k: "utm_source" | "utm_medium" | "utm_campaign" | "utm_content" | "utm_term") =>
+    utms?.[k] || qs(k) || null;
   return {
     path: referrerPath() ?? null,
     referrer: referrerUrl() ?? null,
-    utm_source: qs("utm_source") ?? null,
-    utm_medium: qs("utm_medium") ?? null,
-    utm_campaign: qs("utm_campaign") ?? null,
-    utm_content: qs("utm_content") ?? null,
-    utm_term: qs("utm_term") ?? null,
+    utm_source: pick("utm_source"),
+    utm_medium: pick("utm_medium"),
+    utm_campaign: pick("utm_campaign"),
+    utm_content: pick("utm_content"),
+    utm_term: pick("utm_term"),
     cta_id: ctaId || undefined,
   };
 }
@@ -180,6 +206,7 @@ export const submitLead = createServerFn({ method: "POST" }).validator(
   const message = clean(data.message, MAX_MESSAGE);
   const honeypot = clean(data.website, 400);
   const ctaId = clean(data.ctaId, 80);
+  const utms = data.utms;
   const submit = { name, email, company, message, ctaId };
 
   // 1) Honeypot — bots fill the hidden field; humans never see it.
@@ -268,7 +295,7 @@ export const submitLead = createServerFn({ method: "POST" }).validator(
       company: company || null,
       message: message || null,
       status: "pending",
-      source_json: sourceJson(ctaId),
+      source_json: sourceJson(ctaId, utms),
       ip_hash: ip ? sha256Hex(ip) : null,
       form_id: FORM_ID,
       submitted_at: new Date().toISOString(),

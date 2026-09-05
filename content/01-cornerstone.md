@@ -215,4 +215,4 @@ Pick one channel and one piece of content to ship on schedule for a month. Then 
 
 That's the whole engine in miniature: define the mix, hold the cadence, read the result. Start it before you perfect it.
 
-If you'd rather have a team that plans, produces, and measures while you run the business, that's the work our retainer is built around. [Book a strategy call](https://56837846f7a044416ea4911e5b3a5c3f.ctonew.app) and we'll map your channel mix, cadence, and readout in one conversation.
+If you'd rather have a team that plans, produces, and measures while you run the business, that's the work our retainer is built around. [Book a strategy call](https://56837846f7a044416ea4911e5b3a5c3f.ctonew.app/consult) and we'll map your channel mix, cadence, and readout in one conversation.

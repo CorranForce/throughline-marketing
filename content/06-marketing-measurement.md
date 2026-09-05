@@ -169,4 +169,4 @@ Run it a month or two, watch the few pipeline numbers, and change one thing in t
 
 The system is one spreadsheet and a calendar reminder. It fits next to the content cadence, and it tells you what to change before the next quarter starts.
 
-If the measurement habit is the one you never quite start, that's the gap a team can fill — we plan the mix, ship the content, and bring you the monthly readout with one change, on schedule. [Book a strategy call](https://56837846f7a044416ea4911e5b3a5c3f.ctonew.app) and we'll set up your first readout with you.
+If the measurement habit is the one you never quite start, that's the gap a team can fill — we plan the mix, ship the content, and bring you the monthly readout with one change, on schedule. [Book a strategy call](https://56837846f7a044416ea4911e5b3a5c3f.ctonew.app/consult) and we'll set up your first readout with you.
