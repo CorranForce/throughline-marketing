@@ -119,4 +119,4 @@ If the decision is that your real problem is throughput — that the plan was ne
 
 The throughput frame is the point, no matter who you choose. Consistency beats brilliance, and the pipeline compounds only when the cadence holds — so something has to own the cadence.
 
-If owning it with your own hands is the honest answer right now, run the 90-day rhythm and see what the numbers say. If the owner of the cadence is the role you can't fill without hiring a team you don't want to manage, that's the gap an execution partner exists for. [Book a strategy call](https://56837846f7a044416ea4911e5b3a5c3f.ctonew.app) and we'll help you sort the decision, including the cases where the answer isn't us.
+If owning it with your own hands is the honest answer right now, run the 90-day rhythm and see what the numbers say. If the owner of the cadence is the role you can't fill without hiring a team you don't want to manage, that's the gap an execution partner exists for. [Book a strategy call](https://56837846f7a044416ea4911e5b3a5c3f.ctonew.app/consult) and we'll help you sort the decision, including the cases where the answer isn't us.

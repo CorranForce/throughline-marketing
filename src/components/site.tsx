@@ -6,6 +6,13 @@ export const CONTACT_EMAIL = "throughline-marketing-5070f341@ctomail.io";
 export const BOOK_CTA =
   "mailto:throughline-marketing-5070f341@ctomail.io?subject=Strategy%20call%20request";
 
+/**
+ * The single lead-capture destination (owner direction: every marketing CTA
+ * exists to capture leads and set up a free consult call). All site, blog, and
+ * ad CTAs point here — never at a #enquire anchor or a mailto.
+ */
+export const CONSULT_PATH = "/consult";
+
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
     <span className={`font-semibold tracking-tight text-neutral-900 dark:text-white ${className}`}>
@@ -30,11 +37,12 @@ export function BookButton({
       : "text-neutral-700 ring-1 ring-neutral-300 hover:bg-neutral-100 hover:text-neutral-900 dark:text-neutral-300 dark:ring-neutral-700 dark:hover:bg-neutral-900 dark:hover:text-white";
   return (
     <a
-      href="#enquire"
+      href={CONSULT_PATH}
       data-cta-id={ctaId}
       data-cta-label="Book a strategy call"
-      data-cta-type="form"
-      data-cta-destination="#enquire"
+      data-cta-type="page"
+      data-cta-location="homepage"
+      data-cta-destination={CONSULT_PATH}
       className={`inline-flex items-center justify-center rounded-lg px-5 py-3 text-sm font-medium transition-colors ${base} ${className}`}
     >
       Book a strategy call
@@ -92,11 +100,12 @@ export function SiteHeader() {
           </a>
         </div>
         <a
-          href="#enquire"
+          href={CONSULT_PATH}
           data-cta-id="header-cta"
           data-cta-label="Book a strategy call"
-          data-cta-type="form"
-          data-cta-destination="#enquire"
+          data-cta-type="page"
+          data-cta-location="site-header"
+          data-cta-destination={CONSULT_PATH}
           className="inline-flex items-center rounded-lg bg-neutral-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-neutral-700 dark:bg-white dark:text-neutral-900 dark:hover:bg-neutral-200"
         >
           Book a strategy call
